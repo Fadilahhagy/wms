@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('role_id')->constrained("roles")->onDelete('cascade');
+        Schema::create('suppliers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 255);
+            $table->string('email', 255)->unique();
+            $table->string('address',255)->default('text');
+            $table->string('phone')->unique();
         });
     }
 
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('suppliers');
     }
 };

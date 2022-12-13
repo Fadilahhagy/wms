@@ -18,6 +18,8 @@ export default defineConfig({
                     'resources/assets/js/stisla.js',
                     'resources/assets/js/scripts.js',
                     'resources/assets/js/custom.js',
+                    'resources/assets/modules/prism/prism.js',
+                    'resources/assets/js/page/bootstrap-modal.js',
             ],
             refresh: true,
         }),

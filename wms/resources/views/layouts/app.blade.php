@@ -16,11 +16,13 @@
   <link rel="stylesheet" href="{{ asset('resources/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('resources/css/components.css') }}">
   -->
+<link rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 
   @vite([   'resources/assets/modules/bootstrap/css/bootstrap.min.css',
             'resources/assets/modules/fontawesome/css/all.min.css',
             'resources/assets/css/components.css',
             'resources/assets/css/style.css',
+            'resources/css/custom.css',
             'resources/assets/modules/jquery.min.js',
             'resources/assets/modules/nicescroll/jquery.nicescroll.min.js',
             'resources/assets/modules/popper.js',
@@ -29,7 +31,8 @@
             'resources/assets/modules/moment.min.js',
             'resources/assets/js/stisla.js',
             'resources/assets/js/scripts.js',
-            'resources/assets/js/custom.js'
+            'resources/assets/js/custom.js',
+            'resources/js/custom.js',
     ])
 
 <!-- Start GA -->
@@ -41,8 +44,8 @@
 
   gtag('config', 'UA-94034622-3');
 </script>
-<!-- /END GA --></head>
-
+<!-- /END GA -->
+</head>
 <body>
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
@@ -122,7 +125,7 @@
           </li>
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="{{ Vite::asset('resources/assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div></a>
+            <div class="d-sm-none d-lg-inline-block">Hi, @username</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <div class="dropdown-title">Logged in 5 min ago</div>
               <a href="features-profile.html" class="dropdown-item has-icon">
@@ -145,7 +148,7 @@
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="index.html">WMS</a>
+            <a href="index.html"><img src="{{ Vite::asset('resources/assets/img/WMS.png') }}" style="width:40%;"></a>
           </div>
           <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">WMS</a>
@@ -154,17 +157,22 @@
             <li class="menu-header">Dashboard</li>
             <li class="dropdown">
               <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-              <ul class="dropdown-menu">
-                <li><a class="nav-link" href="index-0.html">General Dashboard</a></li>
-                <li><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li>
-              </ul>
             </li>
             <li class="menu-header">Starter</li>
-            <li class=active>
-            <a class="nav-link" href=""><i class="far fa-user"></i>
+            <li class="{{ request()->is('/') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ url('/') }}"><i class="fas fa-user"></i>
             <span>Supplier</span>
             </a>
             </li>
+            </li>
+            <li class="{{ request()->is('warehouse') ? 'active' : '' }}">
+              <a href="{{ url('warehouse') }}"><i class="fa fa-boxes"></i><span>Warehouse</span></a>
+            </li>
+            <li class="{{ request()->is('room') ? 'active' : '' }}">
+              <a href="{{ url('room') }}"><i class="fa fa-door-open"></i><span>Ruangan</span></a>
+            </li>
+            <li class="{{ request()->is('report_item') ? 'active' : '' }}">
+              <a href="{{ url('report_item') }}"><i class="fa fa-truck"></i><span>Lapor Barang Rusak</span></a>
             </li>
           <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
             <a href="" class="btn btn-primary btn-lg btn-block btn-icon-split">
@@ -174,51 +182,8 @@
           </div>
         </aside>
       </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <section class="section">
-          <div class="section-header">
-            <h1>Supplier</h1>
-          </div>
-          <div class="section-title mt-0">List Data Supplier</div>
-                    <table class="table table-sm table-hover">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Nama</th>
-                          <th scope="col">Alamat</th>
-                          <th scope="col">E-mail</th>
-                          <th scope="col">No telp.</th>
-                          <th scope="col">Aksi</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Mamank kesbor</td>
-                          <td>Terminal</td>
-                          <td>contoh@gmail.com</td>
-                          <td>06969</td>
-                          <td>
-                            <a href="" class="btn btn-primary follow-btn">Edit</a>
-                          </td>
-                        </tr>
-                        </tr>
-                      </tbody>
-                    </table>    
-          <div class="section-body">
-          </div>
-        </section>
-      </div>
-      <footer class="main-footer">
-        <div class="footer-left">
-          Copyright &copy;
-        </div>
-        <div class="footer-right">
-          
-        </div>
-      </footer>
+            @yield('content')
+            @extends('layouts.footer')
     </div>
   </div>
 
@@ -240,5 +205,7 @@
     <script src="assets/js/scripts.js"></script>
     <script src="assets/js/custom.js"></script> 
     -->
+
+    
 </body>
 </html>

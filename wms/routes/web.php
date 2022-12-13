@@ -13,6 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+// Ini adalah fungsi route untuk menampilkan halaman
 Route::get('/', function () {
-    return view('dashboard');
+    return view('supplier');
+});
+Route::get('/warehouse', function () {
+    return view('warehouse');
+});
+Route::get('/room', function () {
+    return view('room');
+});
+Route::get('/report_item', function () {
+    return view('report_item');
 });

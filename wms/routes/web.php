@@ -27,3 +27,7 @@ Route::get('/room', function () {
 Route::get('/report_item', function () {
     return view('report_item');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

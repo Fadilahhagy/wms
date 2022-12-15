@@ -4,37 +4,33 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <title>WMS</title>
-  <!-- General CSS Files 
-  <link rel="stylesheet" href="{{ asset('resources/modules/bootstrap/css/bootstrap.min.css') }}">
-  -->
-  <!-- CSS Libraries 
-  <link rel="stylesheet" href="{{ asset('resources/modules/fontaweseome/css/all.min.css') }}">
-  -->
-  <!-- Template CSS 
-  <link rel="stylesheet" href="{{ asset('resources/css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('resources/css/components.css') }}">
-  -->
-<link rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
   @vite([   'resources/assets/modules/bootstrap/css/bootstrap.min.css',
             'resources/assets/modules/fontawesome/css/all.min.css',
-            'resources/assets/css/components.css',
+            'resources/assets/modules/prism/prism.css',
             'resources/assets/css/style.css',
+            'resources/assets/css/components.css',
             'resources/css/custom.css',
+
             'resources/assets/modules/jquery.min.js',
-            'resources/assets/modules/nicescroll/jquery.nicescroll.min.js',
             'resources/assets/modules/popper.js',
-            'resources/assets/modules/tooltip.js',
             'resources/assets/modules/bootstrap/js/bootstrap.min.js',
+            'resources/assets/modules/tooltip.js',
+            'resources/assets/modules/nicescroll/jquery.nicescroll.min.js',
             'resources/assets/modules/moment.min.js',
             'resources/assets/js/stisla.js',
-            'resources/assets/js/scripts.js',
-            'resources/assets/js/custom.js',
             'resources/assets/modules/prism/prism.js',
             'resources/assets/js/page/bootstrap-modal.js',
+            'resources/assets/js/scripts.js',
+            'resources/assets/js/custom.js',
             'resources/js/custom.js',
     ])
 
+<link rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
@@ -65,15 +61,12 @@
             </div>
           </li>
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="{{ Vite::asset('resources/assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
+            <img alt="image" src="{{ Vite::asset('resources/assets/img/avatar/avatar-3.png') }}" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">Hi, @username</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <div class="dropdown-title">Logged in 5 min ago</div>
               <a href="features-profile.html" class="dropdown-item has-icon">
                 <i class="far fa-user"></i> Profile
-              </a>
-              <a href="features-activities.html" class="dropdown-item has-icon">
-                <i class="fas fa-bolt"></i> Activities
               </a>
               <a href="features-settings.html" class="dropdown-item has-icon">
                 <i class="fas fa-cog"></i> Settings
@@ -92,7 +85,7 @@
             <a href="index.html"><img src="{{ Vite::asset('resources/assets/img/WMS.png') }}" style="width:40%;"></a>
           </div>
           <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">WMS</a>
+            <a href="index.html"><img src="{{ Vite::asset('resources/assets/img/WMSLite.png') }}" style="width:80%;"></a>
           </div>
           <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
@@ -124,29 +117,10 @@
         </aside>
       </div>
             @yield('content')
+
             @extends('layouts.footer')
+            
     </div>
   </div>
-
-  <!--
-  General JS Scripts 
-  <script src="{{ asset('resources/assets/modules/jquery.min.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('resources/assets/modules/nicescroll/jquery.nicescroll.min.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('resources/assets/modules/popper.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('resources/assets/modules/tooltip.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('resources/assets/modules/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('resources/assets/modules/moment.min.js') }}" type="text/javascript"></script>
-  <script src="{{ asset('resources/assets/js/stisla.js') }}" type="text/javascript"></script>
--->
-  <!-- JS Libraies -->
-
-  <!-- Page Specific JS File -->
-  
-    <!-- Template JS File 
-    <script src="assets/js/scripts.js"></script>
-    <script src="assets/js/custom.js"></script> 
-    -->
-
-    
 </body>
 </html>

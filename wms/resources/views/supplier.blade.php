@@ -1,11 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+
 <!-- Main Content -->
         <div class="main-content">
           <section class="section">
             <div class="section-header">
               <h1>Supplier</h1>
+              <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="#">WMS</a></div>
+                <div class="breadcrumb-item"><a href="#">Supplier</a></div>
+                <div class="breadcrumb-item">List Data Supplier</div>
+              </div>
             </div>
               <div class="card card-primary">
                   <div class="card-header">
@@ -18,41 +24,9 @@
                     </h4>
                     <div class="card-header-action">
                       <div class="buttons">
-                      <button class="btn btn-outline-primary trigger--fire-modal-5" id="modal-5">
+                      <button class="btn btn-outline-primary" id="modal" data-target="#exampleModal" data-toggle="modal">
                         Tambah data supplier
                       </button>
-                      <form class="modal-part" id="modal-login-part">
-                        <p>This login form is taken from elements with <code>#modal-login-part</code> id.</p>
-                        <div class="form-group">
-                          <label>Username</label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <i class="fas fa-envelope"></i>
-                              </div>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Email" name="email">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label>Password</label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <div class="input-group-text">
-                                <i class="fas fa-lock"></i>
-                              </div>
-                            </div>
-                            <input type="password" class="form-control" placeholder="Password" name="password">
-                          </div>
-                        </div>
-                        <div class="form-group mb-0">
-                          <div class="custom-control custom-checkbox">
-                            <input type="checkbox" name="remember" class="custom-control-input" id="remember-me">
-                            <label class="custom-control-label" for="remember-me">Remember Me</label>
-                          </div>
-                        </div>
-                      </form>
-
                       </div>
                       <div class="card-header>">
                     </div>
@@ -88,4 +62,46 @@
                 </div>   
         </section>
       </div>
+
+{{-- Modal goes here --}}
+      <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
+        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Tambah Data Supplier</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="" action="">
+                <p>Tambahkan data supplier dengan lengkap!</p>
+                <div class="form-group">
+                  <label>Nama</label>
+                    <input type="text" class="form-control" placeholder="Nama Supplier" name="">
+                </div>
+                <div class="form-group">
+                  <label>Alamat</label>
+                    <input type="text" class="form-control" placeholder="Alamat Supplier" name="">
+                </div>
+                <div class="form-group">
+                  <label>E-mail</label>
+                    <input type="text" class="form-control" placeholder="E-mail Supplier" name="">
+                </div>
+                <div class="form-group">
+                  <label>No telp.</label>
+                    <input type="text" class="form-control" placeholder="No telp. Supplier" >
+                </div>
+                <div class="form-group mb-0">
+                </div>
+            </div>
+            <div class="modal-footer bg-whitesmoke br">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
 @endsection

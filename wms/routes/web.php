@@ -15,7 +15,18 @@ use Illuminate\Support\Facades\Route;
 
 
 // Ini adalah fungsi route untuk menampilkan halaman
-Route::get('/', function () {
+// Route::get('/login', function () {
+//     return view('login');
+// });
+// Route::get('/register', function () {
+//     return view('register');
+// });
+
+
+Route::get('/forgot_password', function () {
+    return view('forgot_password');
+});
+Route::get('/supplier', function () {
     return view('supplier');
 });
 Route::get('/warehouse', function () {

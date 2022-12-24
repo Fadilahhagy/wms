@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 
 // Ini adalah fungsi route untuk menampilkan halaman
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
 Route::get('/login', function () {
     return view('login');
 });
@@ -24,7 +27,7 @@ Route::get('/register', function () {
 Route::get('/forgot_password', function () {
     return view('forgot_password');
 });
-Route::get('/', function () {
+Route::get('/supplier', function () {
     return view('supplier');
 });
 Route::get('/warehouse', function () {
@@ -35,7 +38,4 @@ Route::get('/room', function () {
 });
 Route::get('/report_item', function () {
     return view('report_item');
-});
-Route::get('/dashboard', function () {
-    return view('dashboard');
 });

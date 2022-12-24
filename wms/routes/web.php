@@ -36,3 +36,6 @@ Route::get('/room', function () {
 Route::get('/report_item', function () {
     return view('report_item');
 });
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});

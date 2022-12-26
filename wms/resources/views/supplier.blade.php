@@ -36,7 +36,7 @@
                   <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th scope="col">#</th>
+                          <th scope="col">ID</th>
                           <th scope="col">Nama</th>
                           <th scope="col">Alamat</th>
                           <th scope="col">E-mail</th>
@@ -45,17 +45,25 @@
                         </tr>
                       </thead>
                       <tbody>
+                        @forelse ($suppliers as $supplier)
                         <tr>
-                          <th scope="row">1</th>
-                          <td>Mamank kesbor</td>
-                          <td>Terminal</td>
-                          <td>contoh@gmail.com</td>
-                          <td>06969</td>
+                          <th scope="row">{{ $supplier->id }}</th>
+                          <td>{{ $supplier->name }}</td>
+                          <td>{{ $supplier->email }}</td>
+                          <td>{{ $supplier->address }}</td>
+                          <td>{{ $supplier->phone }}</td>
                           <td>
                             <a href="" class="btn btn-outline-primary">Edit</a>
+                            @csrf
+                            @method('DELETE')
                           </td>
                         </tr>
                         </tr>
+                        @empty
+                          <div class="alert alert-danger">
+                            Data supplier belum tersedia.
+                          </div>
+                        @endforelse
                       </tbody>
                     </table> 
                   </div>
@@ -74,23 +82,23 @@
               </button>
             </div>
             <div class="modal-body">
-              <form method="" action="">
+              <form method="POST" action="{{ route('supplier.store') }}">
                 <p>Tambahkan data supplier dengan lengkap!</p>
                 <div class="form-group">
                   <label>Nama</label>
-                    <input type="text" class="form-control" placeholder="Nama Supplier" name="">
+                    <input type="text" class="form-control" placeholder="Nama Supplier" name="name">
                 </div>
                 <div class="form-group">
                   <label>Alamat</label>
-                    <input type="text" class="form-control" placeholder="Alamat Supplier" name="">
+                    <input type="text" class="form-control" placeholder="Alamat Supplier" name="address">
                 </div>
                 <div class="form-group">
                   <label>E-mail</label>
-                    <input type="text" class="form-control" placeholder="E-mail Supplier" name="">
+                    <input type="text" class="form-control" placeholder="E-mail Supplier" name="email">
                 </div>
                 <div class="form-group">
                   <label>No telp.</label>
-                    <input type="text" class="form-control" placeholder="No telp. Supplier" >
+                    <input type="text" class="form-control" placeholder="No telp. Supplier" name="phone">
                 </div>
                 <div class="form-group mb-0">
                 </div>

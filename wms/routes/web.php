@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +49,5 @@ Route::controller(ItemController::class)->group(function () {
     Route::get('/items', 'index');
     Route::post('/items', 'store');
 });
+//route source supplier
+Route::resource('/supplier', SupplierController::class);

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\SupplierModels;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +19,6 @@ use Illuminate\Support\Facades\Route;
 // Ini adalah fungsi route untuk menampilkan halaman
 Route::get('/dashboard', function () {
     return view('dashboard');
-});
-Route::get('/login', function () {
-    return view('login');
-});
-Route::get('/register', function () {
-    return view('register');
 });
 Route::get('/forgot_password', function () {
     return view('forgot_password');
@@ -46,3 +42,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
+
+//route source supplier
+Route::resource('/supplier', \App\Http\Controllers\SupplierController::class);

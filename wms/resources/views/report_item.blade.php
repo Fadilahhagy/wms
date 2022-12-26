@@ -54,7 +54,7 @@
 
 {{-- Modal goes here --}}
 <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
-    <div class="modal-dialog modal-xl modal-dialog-centered xl-4" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered lg-8" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Lapor Data Barang Rusak</h5>
@@ -70,7 +70,7 @@
             </div>
             <div class="col-md-6">
               <label class="form-label">Nama Supplier : </label>
-              <b class="form-control">PT Mamank Kesbor Jaya 3x</b>
+              <input value="PT Mamank Kesbor Jaya 3x" class="form-control" disabled>
             </div>
             <div class="col-md-6">
               <label class="form-label mt-3">Nama Barang</label>
@@ -90,7 +90,7 @@
             </div>
               <div class="col-md-12 mt-3">
                 <label class="form-label">Deskripsi</label>
-                <textarea class="form-control" aria-label="With textarea"></textarea>
+                <textarea class="form-control" name="deskripsi" aria-label="With textarea"></textarea>
               </div>
             <div class="col-12 mt-3">
               <button type="submit" class="btn btn-primary">Konfirmasi</button>

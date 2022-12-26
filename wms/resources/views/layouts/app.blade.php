@@ -94,8 +94,8 @@
                                     class="fas fa-fire"></i><span>Dashboard</span></a>
                         </li>
                         <li class="menu-header">Starter</li>
-                        <li class="{{ request()->is('/') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ url('/') }}"><i class="fas fa-user"></i>
+                        <li class="{{ request()->is('supplier') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ url('supplier') }}"><i class="fas fa-user"></i>
                                 <span>Supplier</span>
                             </a>
                         </li>
@@ -124,6 +124,10 @@
 
         </div>
     </div>
+    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace( 'content' );
+    </script>
 </body>
 
 </html>

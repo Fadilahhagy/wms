@@ -82,10 +82,12 @@
               </button>
             </div>
             <div class="modal-body">
-              <form method="POST" action="{{ route('supplier.store') }}">
+              <form action="{{ route('supplier.store') }}" method="POST" enctype="multipart/form-data">
+                {{ csrf_field() }}
                 <p>Tambahkan data supplier dengan lengkap!</p>
                 <div class="form-group">
                   <label>Nama</label>
+                    <input type="hidden" name="user_id">
                     <input type="text" class="form-control" placeholder="Nama Supplier" name="name">
                 </div>
                 <div class="form-group">

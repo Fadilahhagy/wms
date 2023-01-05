@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SupplierModels extends Model
+class Suppliers extends Model
 {
     use HasFactory;
     
@@ -16,4 +16,6 @@ class SupplierModels extends Model
         'address',
         'phone',
     ];
+
+    public $timestamps = false;
 }

@@ -1,7 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Models\SupplierModels;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SupplierController;
 
 /*
@@ -26,22 +30,24 @@ Route::get('/forgot_password', function () {
 Route::get('/supplier', function () {
     return view('supplier');
 });
-Route::get('/warehouse', function () {
-    return view('warehouse');
+Route::controller(RoomController::class) -> group(function() {
+    Route::get('/room','index');
+    Route::get('/room/{id}','roomDetail');
 });
-Route::get('/room', function () {
-    return view('room');
-});
-Route::get('/report_item', function () {
-    return view('report_item');
-});
+
+
+Route::get('/report_item', [ReportController::class ,'index']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
 
+Route::controller(ItemController::class)->group(function () {
+    Route::get('/items', 'index');
+    Route::post('/items', 'store');
+});
 //route source supplier
-Route::resource('/supplier', \App\Http\Controllers\SupplierController::class);
+Route::resource('/supplier', SupplierController::class);

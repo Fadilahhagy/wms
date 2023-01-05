@@ -13,7 +13,7 @@ class SupplierController extends Controller
         $suppliers = Suppliers::first()->paginate(10);
 
         //menampilkan data supplier ke halaman yang dituju
-        return view('supplier', compact('suppliers'));
+        return view('supplier', ['suppliers' => $suppliers]);
 
     }
 

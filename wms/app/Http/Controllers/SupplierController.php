@@ -49,4 +49,17 @@ class SupplierController extends Controller
         //kembali ke halaman jika data berhasil disimpan
         return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);
     }
+
+    public function edit(Supplier $supplier){
+        return view('supplier.edit', compact('suppliers'));
+    }
+
+    public function update(Request $request, Supplier $supplier){
+        $this->validate($request, [
+            'name' => 'required|min:3',
+            'email' => 'required|min:8',
+            'address' => 'required|min:8',
+            'phone' => 'required|min:10'
+        ]);
+    }
 }

@@ -53,7 +53,7 @@
                           <td>{{ $supplier->address }}</td>
                           <td>{{ $supplier->phone }}</td>
                           <td>
-                            <a href="" class="btn btn-outline-primary">Edit</a>
+                            <button id="modal" data-toggle="modal2" data-target="#exampleModal2" class="btn btn-outline-primary">Edit</button>
                             @csrf
                             @method('DELETE')
                           </td>
@@ -71,7 +71,7 @@
         </section>
       </div>
 
-{{-- Modal goes here --}}
+{{-- Modal create supplier goes here  --}}
       <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
           <div class="modal-content">
@@ -113,5 +113,49 @@
           </div>
         </div>
       </div>
+
+{{-- Modal edit goes here --}}
+<div class="modal fade" tabindex="-1" role="dialog" id="exampleModal2" data-target="#exampleModal2">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Data Supplier</h5>
+        <button type="button" class="close" data-dismiss="modal2" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('supplier.update', $supplier->id) }}" method="POST" enctype="multipart/form-data">
+          @csrf
+          @method('PUT')
+          <p>Tambahkan data supplier dengan lengkap!</p>
+          <div class="form-group">
+            <label>Nama</label>
+              <input type="hidden" name="user_id">
+              <input type="text" class="form-control" placeholder="Nama Supplier" value="{{ old('name', $supplier->name) }}" name="name">
+          </div>
+          <div class="form-group">
+            <label>Alamat</label>
+              <input type="text" class="form-control" placeholder="Alamat Supplier" value="{{ old('address', $supplier->address) }}" name="address">
+          </div>
+          <div class="form-group">
+            <label>E-mail</label>
+              <input type="text" class="form-control" placeholder="E-mail Supplier" value="{{ old('email', $supplier->email) }}" name="email">
+          </div>
+          <div class="form-group">
+            <label>No telp.</label>
+              <input type="text" class="form-control" placeholder="No telp. Supplier" name="phone" value="{{ old('phone', $supplier->phone) }}">
+          </div>
+          <div class="form-group mb-0">
+          </div>
+      </div>
+      <div class="modal-footer bg-whitesmoke br">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 @endsection

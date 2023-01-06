@@ -51,3 +51,4 @@ Route::controller(ItemController::class)->group(function () {
 });
 //route source supplier
 Route::resource('/supplier', SupplierController::class);
+Route::get('/edit', [SupplierController::class, 'edit'])->name('supplier.edit');

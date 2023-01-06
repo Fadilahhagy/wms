@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Suppliers;
 use Illuminate\Http\Request;
+use Laravel\Ui\Presets\React;
 
 //
 class SupplierController extends Controller
@@ -50,8 +51,9 @@ class SupplierController extends Controller
         return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
-    public function edit(Supplier $supplier){
-        return view('supplier.edit', compact('suppliers'));
+    public function edit(Request $request){
+        $data = Suppliers::findOrFail($request->get('id'));
+        return response()->json($data);
     }
 
     public function update(Request $request, Supplier $supplier){

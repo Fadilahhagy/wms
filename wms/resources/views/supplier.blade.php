@@ -53,7 +53,7 @@
                           <td>{{ $supplier->address }}</td>
                           <td>{{ $supplier->phone }}</td>
                           <td>
-                            <button id="modal" data-toggle="modal2" data-target="#exampleModal2" class="btn btn-outline-primary">Edit</button>
+                            <button data-id="{{$supplier->id}}" data-toggle="modal" data-target="#exampleModal2" class="btn btn-outline-primary edit">Edit</button>
                             @csrf
                             @method('DELETE')
                           </td>
@@ -119,8 +119,8 @@
   <div class="modal-dialog modal-md modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Tambah Data Supplier</h5>
-        <button type="button" class="close" data-dismiss="modal2" aria-label="Close">
+        <h5 class="modal-title">Edit Data Supplier</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -128,23 +128,23 @@
         <form action="{{ route('supplier.update', $supplier->id) }}" method="POST" enctype="multipart/form-data">
           @csrf
           @method('PUT')
-          <p>Tambahkan data supplier dengan lengkap!</p>
+          <p>Edit data supplier!</p>
           <div class="form-group">
             <label>Nama</label>
-              <input type="hidden" name="user_id">
-              <input type="text" class="form-control" placeholder="Nama Supplier" value="{{ old('name', $supplier->name) }}" name="name">
+              <input type="hidden" name="user_id" id="#id">
+              <input type="text" class="form-control" placeholder="Nama Supplier" value="" name="name" id="name_supplier">
           </div>
           <div class="form-group">
             <label>Alamat</label>
-              <input type="text" class="form-control" placeholder="Alamat Supplier" value="{{ old('address', $supplier->address) }}" name="address">
+              <input type="text" class="form-control" placeholder="Alamat Supplier" value="" name="address" id="address_supplier">
           </div>
           <div class="form-group">
             <label>E-mail</label>
-              <input type="text" class="form-control" placeholder="E-mail Supplier" value="{{ old('email', $supplier->email) }}" name="email">
+              <input type="text" class="form-control" placeholder="E-mail Supplier" value="" name="email" id="email_supplier">
           </div>
           <div class="form-group">
             <label>No telp.</label>
-              <input type="text" class="form-control" placeholder="No telp. Supplier" name="phone" value="{{ old('phone', $supplier->phone) }}">
+              <input type="text" class="form-control" placeholder="No telp. Supplier" value="" name="phone" id="phone_supplier">
           </div>
           <div class="form-group mb-0">
           </div>
@@ -159,3 +159,26 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+  $(document).ready(function(){
+    //edit data
+    $('.edit').on("click",function(){
+      var id = $(this).attr('data-id');
+      $.ajax({
+        url : "{{route('supplier.edit')}}?id="+id,
+        type : "GET",
+        dataType : "JSON",
+        success : function(supplier){
+          $('#id').val(supplier.id);
+          $('#name_supplier').val(supplier.name);
+          $('#address_supplier').val(supplier.address);
+          $('#email_supplier').val(supplier.email);
+          $('#phone_supplier').val(supplier.phone);
+        }
+      });
+    });
+  });
+</script>
+@endpush

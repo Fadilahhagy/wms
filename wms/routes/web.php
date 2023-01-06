@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +33,24 @@ Route::get('/supplier', function () {
 });
 Route::controller(RoomController::class) -> group(function() {
     Route::get('/room','index');
-    Route::get('/room/{id}','roomDetail');
+    Route::get('/room/{id}','show');
+    Route::post('/room','store');
 });
 
 
-Route::get('/report_item', [ReportController::class ,'index']);
+Route::controller(ReportController::class)->group(function() {
+    Route::get('/report-item','indexItems');
+    Route::post('/report-item','store');
+    Route::get('/report-data','index');
+    Route::put('/acc-report','accept_report');
+    Route::put('/decline-report','decline-report');
+});
+
+Route::controller(UserController::class)->group(function() {
+    Route::get('/users','index');
+    Route::Put('/users','update');
+    Route::delete('/users','destroy');
+});
 
 Auth::routes();
 
@@ -48,6 +62,12 @@ Route::get('/dashboard', function () {
 Route::controller(ItemController::class)->group(function () {
     Route::get('/items', 'index');
     Route::post('/items', 'store');
+    Route::delete('/items','delete');
+    Route::put('/items/edit-condition','editCondition');
 });
 //route source supplier
 Route::resource('/supplier', SupplierController::class);
+Route::post('/custom-logout', function () {
+    auth()->logout();
+    return redirect()->route('login');
+})->name('custom-logout');

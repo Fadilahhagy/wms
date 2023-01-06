@@ -9,7 +9,8 @@ class Item extends Model
 {
     use HasFactory;
     public $timestamps = false;
-
+    public $incrementing = false;
+    protected $primaryKey = 'item_code';
     protected $fillable = ["item_code","name","exp_date","condition","room_id","type_item_id","supplier_id"];
 
     public function room() {
@@ -17,5 +18,8 @@ class Item extends Model
     }
     public function itemType() {
         return $this->belongsTo(ItemType::class,'type_item_id');
+    }
+    public function supplier() {
+        return $this->belongsTo(Suppliers::class,'supplier_id','id');
     }
 }

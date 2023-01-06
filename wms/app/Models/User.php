@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_active',
     ];
 
     /**
@@ -48,7 +49,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $attributes = [
-        'role_id' => 1,
-        'is_active' => 0
+        'role_id' => 2,
+        'is_active' => 0,
     ];
+
+    public function role() {
+        return $this->belongsTo(Role::class,'role_id','id');
+    }
 }

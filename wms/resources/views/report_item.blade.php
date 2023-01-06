@@ -22,6 +22,20 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -41,8 +55,14 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->itemType->name }}</td>
                                     <td>{{ $item->room->name }}</td>
-                                    <td><a id="modal" data-target="#exampleModal" data-toggle="modal"
-                                            class="btn btn-outline-danger">Lapor Barang Rusak</a>
+                                    <td><a id="report_item" data-target="#exampleModal" data-toggle="modal"
+                                            class="btn btn-outline-danger" data-item_code="{{ $item->item_code }}"
+                                            data-item_name="{{ $item->name }}"
+                                            data-supplier_name="{{ $item->supplier->name }}"
+                                            data-supplier_contact="{{ $item->supplier->phone }}"
+                                            data-item_type="{{ $item->itemType->name }}"
+                                            data-exp_date="{{ $item->exp_date }}">Lapor
+                                            Barang Rusak</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -64,89 +84,74 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Kode Barang</label>
-                            <input value="A069" class="form-control" disabled>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Nama Supplier : </label>
-                            <input value="PT Mamank Kesbor Jaya 3x" class="form-control" disabled>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label mt-3">Nama Barang</label>
-                            <input value="Komputer Dell i69" class="form-control" disabled>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label mt-3">Kontak Supplier</label>
-                            <input value="08696969420" class="form-control" disabled>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label mt-3">Jenis Barang</label>
-                            <input value="Komputer" class="form-control" disabled>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label mt-3">Tanggal Kadaluarsa</label>
-                            <input value="69 Desemberia 420" class="form-control" disabled>
-                        </div>
-                        <div class="col-md-12 mt-3">
-                            <label class="form-label">Deskripsi</label>
-                            <textarea class="form-control" name="deskripsi" aria-label="With textarea"></textarea>
-                        </div>
-                        <div class="col-12 mt-3">
-                            <button type="submit" class="btn btn-primary">Konfirmasi</button>
-                            <button type="submit" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <form method="post" action="{{ url('report-item') }}">
+                        <div class="row">
+                            {{ csrf_field() }}
+
+                            <input type="hidden" id="item_code_hidden" name="item_code">
+                            <div class="col-md-6">
+                                <label class="form-label">Kode Barang</label>
+                                <input type="text" id="item_code" class="form-control" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nama Supplier : </label>
+                                <input type="text" class="form-control" disabled name="supplier_name" id="supplier_name">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label mt-3">Nama Barang</label>
+                                <input type="text" class="form-control" disabled name="item_name" id="item_name">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label mt-3">Kontak Supplier</label>
+                                <input type="text" class="form-control" disabled name="supplier_contact"
+                                    id="supplier_contact">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label mt-3">Jenis Barang</label>
+                                <input type="text" class="form-control" disabled name="item_type" id="item_type">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label mt-3">Tanggal Kadaluarsa</label>
+                                <input type="text" class="form-control" disabled name="exp_date" id="exp_date">
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <label class="form-label">Deskripsi</label>
+                                <textarea class="form-control" aria-label="With textarea" name="description"></textarea>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn btn-primary">Konfirmasi</button>
+                                <button type="submit" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+@endsection
 
-            {{-- Modal goes here --}}
-            <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
-                <div class="modal-dialog modal-xl modal-dialog-centered xl-4" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Lapor Data Barang Rusak</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Kode Barang</label>
-                                    <input value="A069" class="form-control" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Nama Supplier : </label>
-                                    <b class="form-control">PT Mamank Kesbor Jaya 3x</b>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label mt-3">Nama Barang</label>
-                                    <input value="Komputer Dell i69" class="form-control" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label mt-3">Kontak Supplier</label>
-                                    <input value="08696969420" class="form-control" disabled>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label mt-3">Jenis Barang</label>
-                                    <input value="Komputer" class="form-control" disabled>
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label mt-3">Tanggal Kadaluarsa</label>
-                                    <input value="69 Desemberia 420" class="form-control" disabled>
-                                </div>
-                                <div class="col-md-12 mt-3">
-                                    <label class="form-label">Deskripsi</label>
-                                    <textarea class="form-control" aria-label="With textarea"></textarea>
-                                </div>
-                                <div class="col-12 mt-3">
-                                    <button type="submit" class="btn btn-primary">Konfirmasi</button>
-                                    <button type="submit" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endsection
+@push('scripts')
+    <script>
+        var btn = document.getElementById("report_item");
+
+        btn.onclick = function() {
+
+            // Retrieve data from the button's data-attributes
+            var item_code = this.dataset.item_code;
+            var item_name = this.dataset.item_name;
+            var supplier_name = this.dataset.supplier_name;
+            var supplier_contact = this.dataset.supplier_contact;
+            var item_type = this.dataset.item_type;
+            var exp_date = this.dataset.exp_date;
+
+            document.getElementById('item_code').value = item_code;
+            document.getElementById('item_code_hidden').value = item_code;
+            document.getElementById('item_name').value = item_name;
+            document.getElementById('supplier_name').value = supplier_name;
+            document.getElementById('supplier_contact').value = supplier_contact;
+            document.getElementById('item_type').value = item_type;
+            document.getElementById('exp_date').value = exp_date;
+
+        }
+    </script>
+@endpush

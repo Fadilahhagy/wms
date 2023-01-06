@@ -41,13 +41,13 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
+        dd('cekson');
         $credentials = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required'],
-            'is_active' => true
+            'password' => ['required']
         ]);
  
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 0])) {
             $request->session()->regenerate();
  
             return redirect()->intended('dashboard');

@@ -12,24 +12,31 @@
                 </div>
             </div>
             <div class="card card-primary">
-                <div class="card-header">
-                    <h4 class="section-title">List Data Ruangan
-                        <form class="card-header-form">
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search">
-                            </div>
-                        </form>
-                    </h4>
-                    <div class="card-header-action">
-                        <button class="btn btn-outline-primary" id="modal" data-target="#exampleModal"
-                            data-toggle="modal">
-                            Tambah data Ruangan
-                        </button>
-                        <div class="card-header>">
-                        </div>
-                    </div>
+                <div class="card-header ">
+                    <h4>List Data Barang</h4>
+                    <form class="card-header-form" style="width: 20%;">
+                        <input type="text" name="search" class="form-control" placeholder="Search...">
+                    </form>
                 </div>
                 <div class="card-body">
+                    <button class="btn btn-outline-primary mb-2" id="modal" data-target="#modal-tambah-ruangan"
+                        data-toggle="modal">
+                        Tambah data Ruangan
+                    </button>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -60,42 +67,89 @@
     </div>
 
     {{-- Modal goes here --}}
-    <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
-        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-tambah-ruangan">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Tambah Data Ruangan</h5>
+                <div class="modal-header bg-primary text-center">
+                    <h5 class="modal-title text-white">Tambah Data Ruangan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
+                {{-- Hidden Class --}}
+
+                <div class="hidden" data-item_type="{{ $item_types->count() }}" id="room-count"></div>
+
                 <div class="modal-body">
-                    <form method="" action="">
-                        <p>Tambahkan data ruangan dengan lengkap!</p>
-                        <div class="form-group">
-                            <label>Nama</label>
-                            <input type="text" class="form-control" placeholder="Nama Ruangan" name="">
+                    <form method="post" action="{{ url('room') }}" class="form-room">
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Kode Ruangan</label>
+                                    <input type="text" class="form-control" name="room_code"
+                                        value="{{ old('room_code') }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Nama Ruangan</label>
+                                    <input type="text" class="form-control datepicker" name="name"
+                                        value="{{ old('name') }}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Jenis Ruangan</label>
+                                    <select class="form-control select1" name="room_type">
+                                        @foreach ($room_types as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Jenis</label>
-                            <input type="text" class="form-control" placeholder="Jenis Ruangan" name="">
+                        <div class="row capacity-container">
+                            <div class="col-6 capacity-option">
+                                <div class="form-group">
+                                    <label>Kapasitas Ruangan</label>
+                                    <select class="form-control select1" name="item_room_types[0][id]">
+                                        @foreach ($item_types as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-5 capacity-form">
+                                <div class="form-group">
+                                    <label>Kapasitas</label>
+                                    <input type="number" class="form-control datepicker"
+                                        name="item_room_types[0][capacity]" value="{{ old('capacity') }}">
+                                </div>
+                            </div>
+                            <div class="col-1 capacity-button mt-4 d-none">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-icon btn-danger" id="remove-capacity">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Jenis Barang</label>
-                            <input type="text" class="form-control" placeholder="Jenis Barang" name="">
+
+                        <div class="row container-button-add-capacity">
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" id="add-capacity">Tambah Kapasitas
+                                    Ruangan</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>No telp.</label>
-                            <input type="text" class="form-control" placeholder="No telp. Supplier" name="">
-                        </div>
-                        <div class="form-group mb-0">
+                        <div class="mx-auto justify-content-center mt-5" style="width: 50%;">
+                            <button type="submit" class="btn btn-outline-primary container" name="submit">Konfirmasi</a>
+                                <button type="button" class="btn btn-outline-danger container mt-2"
+                                    data-dismiss="modal">Cancel</a>
                         </div>
                 </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
-                </div>
+
+                </form>
             </div>
         </div>
     </div>
@@ -143,3 +197,40 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        var i = 0;
+        var count = 0;
+
+        $(document).ready(function() {
+            count = parseInt($('#room-count').data('item_type')) - 1;
+            $("#add-capacity").click(function() {
+                if (count > 0) {
+                    ++i;
+                    var container = $('.capacity-container:first').clone();
+                    container.find('select').val('').attr('name', 'item_room_types[' + i + '][id]');
+                    container.find('input').val('').attr('name', 'item_room_types[' + i + '][capacity]');
+
+                    container.find('.capacity-button').removeClass('d-none');
+
+                    container.insertBefore('.container-button-add-capacity');
+                    count--;
+                    if (count <= 0) {
+                        console.log($('.container-button-add-capacity').attr('class'));
+                        $('.container-button-add-capacity').addClass('d-none');
+                    }
+                } else {
+                    alert('Tidak bisa menambahkan field kapasitas kembali');
+                }
+
+            });
+
+            $(document).on('click', '#remove-capacity', function() {
+                $(this).parents('.capacity-container').remove();
+                $('.container-button-add-capacity').removeClass('d-none');
+                count++;
+            });
+        });
+    </script>
+@endpush

@@ -37,4 +37,30 @@ class ItemController extends Controller
 
         return redirect('items')->with('success', "Data Berhasil Ditambahkan");
     }
+
+    public function delete(Request $request) {
+        $item = Item::where('item_code',$request->item_id);
+        $isDelete = $item->delete();
+
+        if($isDelete) {
+            return redirect('items')->with('success', "Data Berhasil Dihapus");
+        } else {
+            return redirect('items')->with('success', "Data Gagal Dihapus");
+        }
+    }
+
+    public function editCondition(Request $request) {
+
+        $item = Item::where('item_code',$request->item_id)->first();
+        $item->condition = 2;
+
+        $edit = $item->update([
+            'condition' => 2
+        ]);
+        if($edit) {
+            return redirect('items')->with('success', "Data Berhasil Diubah");
+        } else {
+            return redirect('items')->with('success', "Data Gagal Diubah");
+        }
+    }
 }

@@ -25,9 +25,15 @@
             <li class="{{ request()->is('room') ? 'active' : '' }}">
                 <a href="{{ url('room') }}"><i class="fa fa-door-open"></i><span>Ruangan</span></a>
             </li>
-            <li class="{{ request()->is('report_item') ? 'active' : '' }}">
-                <a href="{{ url('report_item') }}"><i class="fa fa-truck"></i><span>Lapor Barang
+            <li class="{{ request()->is('report-item') ? 'active' : '' }}">
+                <a href="{{ url('report-item') }}"><i class="fa fa-truck"></i><span>Lapor Barang
                         Rusak</span></a>
+            </li>
+            <li class="{{ request()->is('report-data') ? 'active' : '' }}">
+                <a href="{{ url('report-data') }}"><i class="fas fa-book"></i><span>Data Laporan</span></a>
+            </li>
+            <li class="{{ request()->is('users') ? 'active' : '' }}">
+                <a href="{{ url('users') }}"><i class="fa-solid fa-user-group"></i><span>Data Pengguna</span></a>
             </li>
         </ul>
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">

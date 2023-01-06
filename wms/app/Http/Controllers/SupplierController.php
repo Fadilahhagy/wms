@@ -31,14 +31,6 @@ class SupplierController extends Controller
         //     'phone'     => 'required|min:11'
         // ]);
         
-        // //create
-        // SupplierModels::store([
-        //     'name'      => $request->name,
-        //     'email'     => $request->email,
-        //     'address'   => $request->address,
-        //     'phone'    => $request->phone
-        // ]);
-
         $create = new Suppliers;
         $create->name = $request['name'];
         $create->email = $request['email'];

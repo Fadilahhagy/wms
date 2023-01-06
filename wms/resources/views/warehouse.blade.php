@@ -21,10 +21,10 @@
                 </div>
             </div>
             <div class="card card-primary">
-                <div class="card-header">
+                <div class="card-header ">
                     <h4>List Data Barang</h4>
-                    <form class="card-header-form">
-                        <input type="text" name="search" class="form-control" placeholder="Search">
+                    <form class="card-header-form" style="width: 20%;">
+                        <input type="text" name="search" class="form-control" placeholder="Search...">
                     </form>
                 </div>
                 <div class="card-body">
@@ -55,6 +55,7 @@
                                 <th scope="col">Jenis Barang</th>
                                 <th scope="col">Tanggal Kadaluarsa</th>
                                 <th scope="col">Lokasi Ruangan</th>
+                                <th scope="col">Ubah Kondisi</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
@@ -67,8 +68,19 @@
                                     <td>{{ $item->itemType->name }}</td>
                                     <td>{{ $item->exp_date }}</td>
                                     <td>{{ $item->room->name }}</td>
+                                    <td><a href="" class="btn btn-sm btn-outline-danger"
+                                            data-id="{{ $item->item_code }}" data-name="{{ $item->name }}"
+                                            id="editConditionBtn" data-target="#editConditionModal" data-toggle="modal">Ubah
+                                            Ke Barang Rusak</a>
+                                    </td>
                                     <td>
-                                        <a href="" class="btn btn-icon btn-danger"><i class="fas fa-times"></i></a>
+                                        <a href="" class="btn btn-icon btn-sm btn-danger" id="deleteBtn"
+                                            data-target="#deleteModal" data-toggle="modal" data-id="{{ $item->item_code }}"
+                                            data-name="{{ $item->name }}">
+                                            <i class="fa-sharp fa-solid fa-trash"> </i>
+                                        </a>
+                                        <a href="" class="btn btn-icon btn-sm btn-warning"><i
+                                                class="fa-regular fa-pen-to-square"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -81,17 +93,15 @@
         </section>
     </div>
 
-    {{-- Modal goes here --}}
-
-
+    {{-- Modal Tambah Barang --}}
     <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header container bg-primary">
                     <h5 class="text-white text-center">Tambah Data Barang</h5>
-                    {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button> --}}
+                    </button>
                 </div>
 
                 <div class="modal-body">
@@ -139,12 +149,13 @@
                                     <label class="form-label">Kondisi</label>
                                     <div class="selectgroup w-100">
                                         <label class="selectgroup-item">
-                                            <input type="radio" name="condition" value="1" class="selectgroup-input"
-                                                checked="">
+                                            <input type="radio" name="condition" value="1"
+                                                class="selectgroup-input" checked="">
                                             <span class="selectgroup-button">Baik</span>
                                         </label>
                                         <label class="selectgroup-item">
-                                            <input type="radio" name="condition" value="2" class="selectgroup-input">
+                                            <input type="radio" name="condition" value="2"
+                                                class="selectgroup-input">
                                             <span class="selectgroup-button">Rusak</span>
                                         </label>
 
@@ -165,6 +176,64 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal Delete Barang --}}
+    <div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Anda Yakin ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="text-body">Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                    <form method="POST" action="{{ url('/items') }}">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" id="item_id" name="item_id">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Ubah Kondisi Barang --}}
+    <div class="modal fade" tabindex="-1" role="dialog" id="editConditionModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Anda Yakin ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="text-body">Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
+                    <form method="POST" action="{{ url('/items/edit-condition') }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" id="item_id" name="item_id">
+                        <button type="submit" class="btn btn-warning">Ubah</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('scripts')
     <!-- JS Libraies -->
@@ -179,4 +248,40 @@
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/forms-advanced-forms.js') }}"></script>
+
+
+    {{-- Modal Delete JS --}}
+    <script>
+        // Get the button that opens the modal
+        var btn = document.getElementById("deleteBtn");
+
+        btn.onclick = function() {
+
+            // Retrieve data from the button's data-attributes
+            var id = this.dataset.id;
+            var name = this.dataset.name;
+            // Use the data in the modal
+            document.getElementById('item_id').value = id;
+            document.getElementById('text-body').textContent = "Anda yakin akan menghapus data " + name + "?";
+        }
+    </script>
+
+    {{-- Modal Edit Condition --}}
+    <script>
+        var modal = document.getElementById('editConditionModal');
+        var btn = document.getElementById("editConditionBtn");
+
+        btn.onclick = function() {
+
+            // Retrieve data from the button's data-attributes
+            var id = this.dataset.id;
+            var name = this.dataset.name;
+            console.log(id);
+            // Use the data in the modal
+            document.querySelector('#editConditionModal #item_id').value = id;
+            modal.querySelector('#editConditionModal #text-body').innerHTML =
+                "Anda yakin akan mengubah  data barang " + name +
+                " menjadi <b>data barang rusak</b>";
+        }
+    </script>
 @endpush

@@ -71,3 +71,4 @@ Route::post('/custom-logout', function () {
     auth()->logout();
     return redirect()->route('login');
 })->name('custom-logout');
+Route::get('/edit', [SupplierController::class, 'edit'])->name('supplier.edit');

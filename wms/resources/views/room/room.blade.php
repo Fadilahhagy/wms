@@ -15,7 +15,7 @@
                 <div class="card-header ">
                     <h4>List Data Barang</h4>
                     <form class="card-header-form" style="width: 20%;">
-                        <input type="text" name="search" class="form-control" placeholder="Search...">
+                        <input type="text" name="search" class="form-control" placeholder="Search..." id="search">
                     </form>
                 </div>
                 <div class="card-body">
@@ -47,15 +47,17 @@
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="result">
                             @foreach ($rooms as $room)
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
                                     <td>{{ $room->room_code }}</td>
-                                    <td><a href="{{ url('/room/' . $room->room_code) }}">{{ $room->name }}</a></td>
+                                    <td><a
+                                            href="{{ url('/room/' . $room->room_code . '/items/condition/1') }}">{{ $room->name }}</a>
+                                    </td>
                                     <td>{{ $room->roomType->name }}</td>
                                     <td>
-                                        <a href="" class="btn btn-outline-primary">Edit</a>
+                                        <a href="/room/form/{{ $room->room_code }}" class="btn btn-outline-primary">Edit</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -147,9 +149,8 @@
                                 <button type="button" class="btn btn-outline-danger container mt-2"
                                     data-dismiss="modal">Cancel</a>
                         </div>
+                    </form>
                 </div>
-
-                </form>
             </div>
         </div>
     </div>
@@ -231,6 +232,36 @@
                 $('.container-button-add-capacity').removeClass('d-none');
                 count++;
             });
+
+            var url = "";
+            var typingTImer;
+            var doneTimingInterval = 500;
+
+            $("#search").on("keyup", function() {
+                clearTimeout(typingTImer);
+                var value = $(this).val().toLowerCase();
+                typingTImer = setTimeout(() => {
+                    $.get('/room/live_search?q=' + value, function(data) {
+                        $("#result").html("");
+                        console.log(data);
+                        $.each(data, function(key, value) {
+                            $("#result").append(`
+                                <tr>
+                                    <th scope="row">${key+1}</th>
+                                    <td>${value.room_code}</td>
+                                    <td><a
+                                            href="/room/${value.room_code}/items/condition/1">{{ $room->name }}</a>
+                                    </td>
+                                    <td>${value.room_type.name}</td>
+                                    <td>
+                                        <a href="/room/${value.room_code}/items/condition/1" class="btn btn-outline-primary">Edit</a>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    });
+                }, doneTimingInterval);
+            })
         });
     </script>
 @endpush

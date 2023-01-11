@@ -10,7 +10,8 @@ class Room extends Model
     use HasFactory;
     public $incrementing = false;
     protected $fillable = ['room_code','name','type_room_id'];
-    public $timestamps = false;
+    protected $primaryKey = 'room_code';
+
 
     public function items() {
         return $this->hasMany(Item::class,'room_id','room_code');

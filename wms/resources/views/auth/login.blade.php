@@ -14,6 +14,17 @@
                             <div class="d-flex">
                                 <div class="w-100">
                                     <h3 class="mb-4">Sign In</h3>
+                                    @error('is_active')
+                                        <div class="alert alert-danger">
+                                            <strong>{{ $message }}</strong>
+                                        </div>
+                                    @enderror
+
+                                    @if (session('register_success'))
+                                        <div class="alert alert-danger">
+                                            {{ session('register_success') }}
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <form method="POST" action="{{ route('login') }}">
@@ -22,7 +33,8 @@
                                     <label class="label" for="name">{{ __('Email Address') }}</label>
                                     <input id="email" type="email"
                                         class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ old('email') }}" required autocomplete="email" placeholder="Email Address" autofocus>
+                                        value="{{ old('email') }}" required autocomplete="email"
+                                        placeholder="Email Address" autofocus>
 
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">

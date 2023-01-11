@@ -49,7 +49,7 @@ class SupplierController extends Controller
         return response()->json($data);
     }
 
-    public function update(Request $request, Supplier $supplier){
+    public function update(Request $request){
         $this->validate($request, [
             'name' => 'required|min:3',
             'email' => 'required|min:8',
@@ -70,7 +70,7 @@ class SupplierController extends Controller
     }
     public function search(Request $request){
         $suppliers = Suppliers::where([
-            ['name', '!=', Null],
+            ['name', '!=', null],
             [function ($query) use ($request) {
                 if(($qword = $request->search)){
                     $query->orWhere('name', 'LIKE', '%' . $qword . '%')
@@ -80,7 +80,7 @@ class SupplierController extends Controller
                             ->get();
                 }
             }]
-        ])->paginate(7);
+        ])->paginate(10);
 
         return view('search.supplier_search', compact('suppliers'));
     }

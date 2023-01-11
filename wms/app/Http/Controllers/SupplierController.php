@@ -9,7 +9,8 @@ use Laravel\Ui\Presets\React;
 //
 class SupplierController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
+
         //get data supplier dari model Supplier
         $suppliers = Suppliers::first()->paginate(10);
 
@@ -48,7 +49,7 @@ class SupplierController extends Controller
         return response()->json($data);
     }
 
-    public function update(Request $request, Supplier $supplier){
+    public function update(Request $request){
         $this->validate($request, [
             'name' => 'required|min:3',
             'email' => 'required|min:8',
@@ -56,4 +57,32 @@ class SupplierController extends Controller
             'phone' => 'required|min:10'
         ]);
     }
+
+    public function delete(Request $request){
+        $supplier = Suppliers::where('id',$request->id);
+        $isDelete = $supplier->delete();
+
+        if($isDelete){
+            return redirect('supplier')->with('success', "Data Berhasil Dihapus");
+        } else{
+            return redirect('supplier')->with('success', "Data Gagal Dihapus");
+        }
+    }
+    public function search(Request $request){
+        $suppliers = Suppliers::where([
+            ['name', '!=', null],
+            [function ($query) use ($request) {
+                if(($qword = $request->search)){
+                    $query->orWhere('name', 'LIKE', '%' . $qword . '%')
+                            ->orWhere('alamat', 'LIKE', '%' . $qword . '%')
+                            ->orWhere('email', 'LIKE', '%' . $qword . '%')
+                            ->orWhere('phone', 'LIKE', '%' . $qword . '%')
+                            ->get();
+                }
+            }]
+        ])->paginate(10);
+
+        return view('search.supplier_search', compact('suppliers'));
+    }
+    
 }

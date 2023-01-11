@@ -8,6 +8,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Models\Suppliers;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +68,8 @@ Route::middleware('auth')->group(function() {
     //route source supplier
     Route::resource('/supplier', SupplierController::class);
     Route::get('/edit', [SupplierController::class, 'edit'])->name('supplier.edit');
-
+    Route::delete('/delete', [SupplierController::class, 'delete'])->name('supplier.delete');
+    Route::get('search.supplier_search', [SupplierController::class, 'search'])->name('supplier.search');
     
     Route::post('/custom-logout', function () {
         auth()->logout();
@@ -91,5 +93,4 @@ Route::middleware('auth')->group(function() {
 
     
 });
-
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Suppliers;
 use Illuminate\Http\Request;
 use Laravel\Ui\Presets\React;
+use Illuminate\Support\Facades\DB;
 
 //
 class SupplierController extends Controller
@@ -49,13 +50,22 @@ class SupplierController extends Controller
         return response()->json($data);
     }
 
-    public function update(Request $request, Supplier $supplier){
+    public function update(Request $request, $id){
         $this->validate($request, [
             'name' => 'required|min:3',
             'email' => 'required|min:8',
             'address' => 'required|min:8',
             'phone' => 'required|min:10'
         ]);
+
+        $suppliers = Suppliers::findOrFail($id);
+        $suppliers->name = $request->name;
+        $suppliers->email = $request->email;
+        $suppliers->address = $request->address;
+        $suppliers->phone = $request->phone;
+        $suppliers->save();
+
+        return redirect()->back()->with(['success' => 'Data Berhasil Diubah!']);
     }
 
     public function delete(Request $request){
@@ -69,20 +79,18 @@ class SupplierController extends Controller
         }
     }
     public function search(Request $request){
-        $suppliers = Suppliers::where([
-            ['name', '!=', Null],
-            [function ($query) use ($request) {
-                if(($qword = $request->search)){
-                    $query->orWhere('name', 'LIKE', '%' . $qword . '%')
-                            ->orWhere('alamat', 'LIKE', '%' . $qword . '%')
-                            ->orWhere('email', 'LIKE', '%' . $qword . '%')
-                            ->orWhere('phone', 'LIKE', '%' . $qword . '%')
-                            ->get();
-                }
-            }]
-        ])->paginate(7);
+        // menangkap data pencarian
+        $search = $request->search;
+    
+        // mengambil data dari table suppliers sesuai pencarian data
+        $suppliers = DB::table('suppliers')
+        ->where('name','like',"%".$search."%")
+        ->orWhere('email','like',"%".$search."%")
+        ->orWhere('address','like',"%".$search."%")
+        ->orWhere('phone','like',"%".$search."%")
+        ->paginate(6);
 
-        return view('search.supplier_search', compact('suppliers'));
+        return view('search.supplier_search', ['suppliers' => $suppliers]);
     }
     
 }

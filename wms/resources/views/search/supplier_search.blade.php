@@ -18,7 +18,7 @@
                     <h4 class="section-title">List Data Supplier
                     <form action="{{ route('supplier.search') }}" method="GET" class="card-header-form">
                       <div class="input-group">
-                        <input type="text" name="s" class="form-control" placeholder="Search">
+                        <input type="text" name="search" class="form-control" placeholder="Search">
                       </div>
                     </form>
                     </h4>

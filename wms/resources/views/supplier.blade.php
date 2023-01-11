@@ -18,7 +18,7 @@
                     <h4 class="section-title">List Data Supplier
                     <form action="{{ route('supplier.search') }}" method="GET" class="card-header-form">
                       <div class="input-group">
-                        <input type="text" name="s" class="form-control" placeholder="Search">
+                        <input type="text" name="search" class="form-control" placeholder="Search">
                       </div>
                     </form>
                     </h4>
@@ -143,7 +143,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="{{ route('supplier.update', $supplier->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('supplier.update', $supplier->id) }}" method="POST">
           @csrf
           @method('PUT')
           <p>Edit data supplier!</p>

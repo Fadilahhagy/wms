@@ -29,9 +29,6 @@ Route::get('/dashboard', function () {
 Route::get('/forgot_password', function () {
     return view('forgot_password');
 });
-Route::get('/supplier', function () {
-    return view('supplier');
-});
 Route::controller(RoomController::class) -> group(function() {
     Route::get('/room','index');
     Route::get('/room/{id}','show');

@@ -55,7 +55,7 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->itemType->name }}</td>
                                     <td>{{ $item->room->name }}</td>
-                                    <td><a id="report_item" data-target="#exampleModal" data-toggle="modal"
+                                    <td><a id="report_item" data-target="#reportModal" data-toggle="modal"
                                             class="btn btn-outline-danger" data-item_code="{{ $item->item_code }}"
                                             data-item_name="{{ $item->name }}"
                                             data-supplier_name="{{ $item->supplier->name }}"
@@ -74,7 +74,7 @@
     </div>
 
     {{-- Modal goes here --}}
-    <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="reportModal">
         <div class="modal-dialog modal-lg modal-dialog-centered lg-8" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -132,26 +132,48 @@
 
 @push('scripts')
     <script>
-        var btn = document.getElementById("report_item");
+        // var btn = document.getElementById("report_item");
 
-        btn.onclick = function() {
+        // btn.onclick = function() {
 
-            // Retrieve data from the button's data-attributes
-            var item_code = this.dataset.item_code;
-            var item_name = this.dataset.item_name;
-            var supplier_name = this.dataset.supplier_name;
-            var supplier_contact = this.dataset.supplier_contact;
-            var item_type = this.dataset.item_type;
-            var exp_date = this.dataset.exp_date;
+        //     // Retrieve data from the button's data-attributes
+        //     var item_code = this.dataset.item_code;
+        //     var item_name = this.dataset.item_name;
+        //     var supplier_name = this.dataset.supplier_name;
+        //     var supplier_contact = this.dataset.supplier_contact;
+        //     var item_type = this.dataset.item_type;
+        //     var exp_date = this.dataset.exp_date;
 
-            document.getElementById('item_code').value = item_code;
-            document.getElementById('item_code_hidden').value = item_code;
-            document.getElementById('item_name').value = item_name;
-            document.getElementById('supplier_name').value = supplier_name;
-            document.getElementById('supplier_contact').value = supplier_contact;
-            document.getElementById('item_type').value = item_type;
-            document.getElementById('exp_date').value = exp_date;
+        //     document.getElementById('item_code').value = item_code;
+        //     document.getElementById('item_code_hidden').value = item_code;
+        //     document.getElementById('item_name').value = item_name;
+        //     document.getElementById('supplier_name').value = supplier_name;
+        //     document.getElementById('supplier_contact').value = supplier_contact;
+        //     document.getElementById('item_type').value = item_type;
+        //     document.getElementById('exp_date').value = exp_date;
 
-        }
+        // }
+
+        $(document).ready(function() {
+            $('#reportModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang memicu modal
+                var id = button.data('id'); // Nilai data-id yang diambil dari tombol
+                var name = button.data('name'); // Nilai data-name yang diambil dari tombol
+
+                var item_code = button.data('item_code');
+                var item_name = button.data('item_name');
+                var supplier_name = button.data('supplier_name');
+                var supplier_contact = button.data('supplier_contact');
+                var item_type = button.data('item_type');
+                var exp_date = button.data('exp_date');
+                $('#reportModal #item_code').val(item_code);
+                $('#reportModal #item_code_hidden').val(item_code);
+                $('#reportModal #item_name').val(item_name);
+                $('#reportModal #supplier_name').val(supplier_name);
+                $('#reportModal #supplier_contact').val(supplier_contact);
+                $('#reportModal #item_type').val(item_type);
+                $('#reportModal #exp_date').val(exp_date);
+            });
+        });
     </script>
 @endpush

@@ -29,14 +29,25 @@ class RoomController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
-            'room_code' => 'required',
-            'name' => 'required',
-            'room_type' => 'required',
-            'item_room_types' => 'array',
-            'item_room_types.*.id' => 'required',
-            'item_room_types.*.capacity' => 'required',
+        // $request->validate([
+        //     'room_code' => 'required',
+        //     'name' => 'required',
+        //     'room_type' => 'required',
+        //     'item_room_types' => 'array',
+        //     'item_room_types.*.id' => 'required',
+        //     'item_room_types.*.capacity' => 'required|numeric|min:1',
+        // ]);
+
+        $request->validate(['room_code' => 'required',            
+        'name' => 'required',
+        'room_type' => 'required',
+        'item_room_types' => 'array',
+        'item_room_types.*.id' => 'required',
+        'item_room_types.*.capacity' => 'required|numeric|min:1',
+        ],[
+            'item_room_types.*.capacity.min' => 'Kapasitas tidak boleh kurang dari 1.'
         ]);
+
 
         $room = Room::create([
             "room_code" => $request->room_code,
@@ -71,7 +82,10 @@ class RoomController extends Controller
             'name' => 'required|string|max:255',
             'room_type' => 'required|exists:room_types,id',
             'item_room_types.*.id' => 'required|exists:item_types,id',
-            'item_room_types.*.capacity' => 'required|numeric|min:0',
+            'item_room_types.*.capacity' => 'required|numeric|min:1',
+        ],[
+            'item_room_types.*.capacity.min' => 'Kapasitas tidak boleh kurang dari 1.',
+            'name.required' => 'Field nama tidak boleh kosong',
         ]);
 
         // Update the room's details

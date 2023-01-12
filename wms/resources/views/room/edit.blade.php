@@ -11,6 +11,15 @@
                         <h4>Form Edit Ruangan </h4>
                     </div>
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form method="post" action="{{ url('/room/' . $room->room_code) }}">
                             @method('PUT')
                             {{ csrf_field() }}

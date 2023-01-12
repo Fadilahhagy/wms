@@ -22,8 +22,10 @@ class ReportController extends Controller
     public function store(Request $request) {
         $request->validate([
             'description' => 'required',
+        ],[
+            'description.required' => "Field description tidak boleh kosong"
         ]);
-        $report = Report::create([
+        Report::create([
             'description' => $request->description,
             'item_code' => $request->item_code,
             'is_accepted' => 0

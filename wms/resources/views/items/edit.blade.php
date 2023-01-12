@@ -23,7 +23,7 @@
                                     <div class="form-group">
                                         <label>Nama Barang</label>
                                         <input type="text" class="form-control" name="name"
-                                            value="{{ $item->name }}">
+                                            value="{{ $item->name }}" required>
                                     </div>
 
                                     <div class="form-group">

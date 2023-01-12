@@ -132,7 +132,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Nama Barang</label>
-                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}"
+                                        required>
                                 </div>
 
                                 <div class="form-group">
@@ -144,7 +145,7 @@
 
                                 <div class="form-group">
                                     <label>Jenis Barang</label>
-                                    <select class="form-control select2" name="type_item">
+                                    <select class="form-control select1" name="type_item">
                                         @foreach ($itemTypes as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
@@ -154,7 +155,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Supplier</label>
-                                    <select class="form-control select2" name="item_supplier">
+                                    <select class="form-control select1" name="item_supplier">
                                         @foreach ($suppliers as $row)
                                             <option value="{{ $row->id }}">{{ $row->name }}</option>
                                         @endforeach
@@ -162,7 +163,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Lokasi Ruangan</label>
-                                    <select class="form-control select2" name="room">
+                                    <select class="form-control select1" name="room">
                                         @foreach ($rooms as $item)
                                             <option value="{{ $item->room_code }}">{{ $item->name }}</option>
                                         @endforeach

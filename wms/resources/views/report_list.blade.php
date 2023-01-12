@@ -16,6 +16,23 @@
                         </form>
                     </div>
                     <div class="card-body">
+                        <button class="btn btn-outline-success mb-2">
+                            Export Data ke Excel
+                        </button>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <table class="table">
                             <thead>
                                 <tr>
@@ -128,7 +145,7 @@
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" id="report_id" name="report_id">
-                                    <button type="submit" class="btn btn-danger">Cancel</button>
+                                    <button type="submit" class="btn btn-danger">Tolak Laporan</button>
                                 </form>
                             </div>
                         </div>
@@ -166,30 +183,31 @@
 
 @push('scripts')
     <script>
-        var btn = document.getElementById("btn_action");
+        $(document).ready(function() {
+            $('#detailModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang memicu modal
+                var id = button.data('id'); // Nilai data-id yang diambil dari tombol
+                var name = button.data('name'); // Nilai data-name yang diambil dari tombol
 
-        btn.onclick = function() {
+                var item_code = button.data('item_code');
+                var item_name = button.data('item_name');
+                var supplier_name = button.data('supplier_name');
+                var supplier_contact = button.data('supplier_contact');
+                var item_type = button.data('item_type');
+                var exp_date = button.data('exp_date');
+                var description = button.data('description');
+                var id = button.data('id');
 
-            // Retrieve data from the button's data-attributes
-            var id = this.dataset.id;
-            var item_code = this.dataset.item_code;
-            var item_name = this.dataset.item_name;
-            var supplier_name = this.dataset.supplier_name;
-            var supplier_contact = this.dataset.supplier_contact;
-            var item_type = this.dataset.item_type;
-            var exp_date = this.dataset.exp_date;
-            var desc = this.dataset.description;
-
-            document.getElementById('report_id').value = id;
-            document.getElementById('item_code').value = item_code;
-            document.getElementById('item_name').value = item_name;
-            document.getElementById('supplier_name').value = supplier_name;
-            document.getElementById('supplier_contact').value = supplier_contact;
-            document.getElementById('item_type').value = item_type;
-            document.getElementById('exp_date').value = exp_date;
-            document.getElementById('description').value = desc;
-
-        }
+                $('#detailModal #item_code').val(item_code);
+                $('#detailModal #report_id').val(id);
+                $('#detailModal #item_name').val(item_name);
+                $('#detailModal #supplier_name').val(supplier_name);
+                $('#detailModal #supplier_contact').val(supplier_contact);
+                $('#detailModal #item_type').val(item_type);
+                $('#detailModal #exp_date').val(exp_date);
+                $('#detailModal #description').val(description);
+            });
+        });
     </script>
     <script>
         $(document).ready(function() {

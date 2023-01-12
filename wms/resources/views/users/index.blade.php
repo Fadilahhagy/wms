@@ -15,6 +15,25 @@
                         </form>
                     </div>
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('failed'))
+                            <div class="alert alert-danger">
+                                {{ session('failed') }}
+                            </div>
+                        @endif
                         <table class="table">
                             <thead>
                                 <tr>
@@ -111,7 +130,7 @@
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="user_id" name="user_id">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-success">Ya</button>
                     </form>
 
                 </div>
@@ -123,20 +142,16 @@
 @push('scripts')
     {{-- Modal Delete JS --}}
     <script>
-        // Get the button that opens the modal
-        var btn = document.getElementById("delete-button");
-
-        btn.onclick = function() {
-
-            // Retrieve data from the button's data-attributes
-            var id = this.dataset.id;
-            var name = this.dataset.name;
-            // Use the data in the modal
-            document.querySelector('#delete-modal #user_id').value = id;
-            document.querySelector('#delete-modal #text-body').innerHTML =
-                "<p>Anda yakin akan menghapus pengguna <b>" + name +
-                "</b>?</p>";
-        }
+        $(document).ready(function() {
+            $('#delete-modal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang memicu modal
+                var id = button.data('id'); // Nilai data-id yang diambil dari tombol
+                var name = button.data('name'); // Nilai data-name yang diambil dari tombol
+                $('#delete-modal #user_id').val(id);
+                $('#delete-modal #text-body').html("Anda yakin akan menghapus pengguna <b> " + name +
+                    "</b> ?");
+            });
+        });
     </script>
 
 
@@ -159,5 +174,16 @@
                 name +
                 "</b>?</p>";
         }
+
+        $(document).ready(function() {
+            $('#edit-modal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang memicu modal
+                var id = button.data('id'); // Nilai data-id yang diambil dari tombol
+                var name = button.data('name'); // Nilai data-name yang diambil dari tombol
+                $('#edit-modal #user_id').val(id);
+                $('#edit-modal #text-body').html("Anda yakin akan meng-aktifkan pengguna <b> " + name +
+                    "</b> ?");
+            });
+        });
     </script>
 @endpush

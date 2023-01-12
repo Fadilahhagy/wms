@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Suppliers;
 use Illuminate\Http\Request;
-use Laravel\Ui\Presets\React;
+use Illuminate\Validation\Rule;
 
 //
 class SupplierController extends Controller
@@ -25,14 +25,27 @@ class SupplierController extends Controller
     }
 
     public function store(Request $request){
-        // //untuk validasi
-        // $this->validate($request, [
-        //     'name'      => 'required|min:5',
-        //     'email'     => 'required|min:10',
-        //     'address'   => 'required|min:10',
-        //     'phone'     => 'required|min:11'
-        // ]);
         
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                Rule::unique('suppliers'),
+                'email',
+                'string',
+                'max:255'
+            ],
+            'address' => 'required|string',
+            'phone' => [
+                'required',
+                'regex:/^08[0-9]{9,12}$/',
+                'numeric'
+            ],
+        ],[
+            'email.unique' => 'Email sudah digunakan.',
+            'phone.regex' => 'Format no telp salah.'
+        ]);
+
         $create = new Suppliers;
         $create->name = $request['name'];
         $create->email = $request['email'];

@@ -50,7 +50,7 @@ class ItemController extends Controller
             "supplier_id" => $request->item_supplier,
         ]);
 
-        return redirect('items')->with('success', "Data Berhasil Ditambahkan");
+        return redirect('items/condition/'.$request->condition)->with('success', "Data Berhasil Ditambahkan");
     }
 
     public function delete(Request $request) {

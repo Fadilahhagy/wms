@@ -81,7 +81,7 @@ Route::middleware('auth')->group(function() {
         Route::controller(ReportController::class)->group(function () {
             Route::get('/report-data','index');
             Route::put('/acc-report','accept_report');
-            Route::put('/decline-report','decline-report');
+            Route::put('/decline-report','decline_report');
         });
     
         Route::controller(UserController::class)->group(function() {

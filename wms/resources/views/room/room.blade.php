@@ -96,8 +96,8 @@
 
                                 <div class="form-group">
                                     <label>Nama Ruangan</label>
-                                    <input type="text" class="form-control datepicker" name="name"
-                                        value="{{ old('name') }}">
+                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}"
+                                        required>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -125,8 +125,8 @@
                             <div class="col-5 capacity-form">
                                 <div class="form-group">
                                     <label>Kapasitas</label>
-                                    <input type="number" class="form-control datepicker"
-                                        name="item_room_types[0][capacity]" value="{{ old('capacity') }}">
+                                    <input type="number" class="form-control" name="item_room_types[0][capacity]"
+                                        value="{{ old('capacity') }}">
                                 </div>
                             </div>
                             <div class="col-1 capacity-button mt-4 d-none">
@@ -250,7 +250,7 @@
                                     <th scope="row">${key+1}</th>
                                     <td>${value.room_code}</td>
                                     <td><a
-                                            href="/room/${value.room_code}/items/condition/1">{{ $room->name }}</a>
+                                            href="/room/${value.room_code}/items/condition/1">${value.name}</a>
                                     </td>
                                     <td>${value.room_type.name}</td>
                                     <td>

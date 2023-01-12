@@ -56,4 +56,13 @@ class User extends Authenticatable
     public function role() {
         return $this->belongsTo(Role::class,'role_id','id');
     }
+
+    public function isAdmin()
+    {
+        return $this->role()->where('id', '1')->exists();
+    }
+
+    public function is_active() {
+        return $this->where('is_active',1)->exists();
+    }
 }

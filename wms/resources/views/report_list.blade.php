@@ -18,30 +18,29 @@
                     <div class="card-body">
                         <table class="table">
                             <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Kode Barang</th>
-                                <th scope="col">Nama Barang</th>
-                                <th scope="col">Lokasi Ruangan</th>
-                                <th scope="col">Supplier</th>
-                                <th scope="col">Status</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Kode Barang</th>
+                                    <th scope="col">Nama Barang</th>
+                                    <th scope="col">Lokasi Ruangan</th>
+                                    <th scope="col">Supplier</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Hubungi Supplier</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach ($reports as $item)
-                                <tr>
-                                    <th scope="row">{{ $loop->iteration }}</th>
-                                    <td>{{ $item->item_code }}</td>
-                                    <td>{{ $item->item->name }}</td>
-                                    <td>{{ $item->item->room->name }}</td>
-                                    <td>{{ $item->item->supplier->name }}</td>
-                                    <td>
-                                        @if ($item->is_accepted === 0)
-                                            <button type="submit"
-                                                    id="btn_action"
-                                                    class="btn btn-sm btn-outline-primary"
-                                                    data-target="#detailModal" data-toggle="modal"
-                                                    class="btn btn-outline-danger"
+                                @foreach ($reports as $item)
+                                    <tr>
+                                        <th scope="row">{{ $loop->iteration }}</th>
+                                        <td>{{ $item->item_code }}</td>
+                                        <td>{{ $item->item->name }}</td>
+                                        <td>{{ $item->item->room->name }}</td>
+                                        <td>{{ $item->item->supplier->name }}</td>
+                                        <td>
+                                            @if ($item->is_accepted === 0)
+                                                <button type="submit" id="btn_action"
+                                                    class="btn btn-sm btn-outline-primary" data-target="#detailModal"
+                                                    data-toggle="modal" class="btn btn-outline-danger"
                                                     data-id="{{ $item->id }}"
                                                     data-item_code="{{ $item->item->item_code }}"
                                                     data-item_name="{{ $item->item->name }}"
@@ -50,18 +49,29 @@
                                                     data-item_type="{{ $item->item->itemType->name }}"
                                                     data-exp_date="{{ $item->item->exp_date }}"
                                                     data-description="{{ $item->description }}">
-                                                Tindak Laporan
-                                            </button>
-                                        @elseif($item->is_accepted === 1)
-                                            <p class="text-success mt-2"><b>Laporan telah disetujui</b></p>
-                                        @else
-                                            <p class="text-danger mt-3"><b>Laporan telah ditolak</b></p>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
+                                                    Tindak Laporan
+                                                </button>
+                                            @elseif($item->is_accepted === 1)
+                                                <p class="text-success mt-2"><b>Laporan telah disetujui</b></p>
+                                            @else
+                                                <p class="text-danger mt-3"><b>Laporan telah ditolak</b></p>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($item->is_accepted === 1)
+                                                <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                                                    data-target="#callSupplierModal"
+                                                    data-no_telp="{{ $item->item->supplier->phone }}"
+                                                    data-email="{{ $item->item->supplier->email }}">Hubungi</button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center">
+                            {!! $reports->links() !!}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,8 +96,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Nama Supplier : </label>
-                            <input type="text" class="form-control" disabled name="supplier_name"
-                                   id="supplier_name">
+                            <input type="text" class="form-control" disabled name="supplier_name" id="supplier_name">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label mt-3">Nama Barang</label>
@@ -96,7 +105,7 @@
                         <div class="col-md-6">
                             <label class="form-label mt-3">Kontak Supplier</label>
                             <input type="text" class="form-control" disabled name="supplier_contact"
-                                   id="supplier_contact">
+                                id="supplier_contact">
                         </div>
                         <div class="col-md-12">
                             <label class="form-label mt-3">Jenis Barang</label>
@@ -108,8 +117,7 @@
                         </div>
                         <div class="col-md-12 mt-3">
                             <label class="form-label">Deskripsi</label>
-                            <textarea class="form-control" aria-label="With textarea" disabled name="description"
-                                      id="description"></textarea>
+                            <textarea class="form-control" aria-label="With textarea" disabled name="description" id="description"></textarea>
                         </div>
                         <div class="col-12 mt-3">
                             <div class="row mx-auto">
@@ -133,13 +141,37 @@
         </div>
     </div>
 
+    {{-- Modal Call supplier --}}
+    <div class="modal fade" tabindex="-1" role="dialog" id="callSupplierModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Hubungi Supplier</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="text-body">Pilih Metode untuk menghubungi supplier</p>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <a href="" type="button" class="btn btn-success whatsapp" target="_blank">
+                        Whatsapp
+                    </a>
+                    <a href="" type="button" class="btn btn-danger gmail" target="_blank">
+                        G-mail
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script>
         var btn = document.getElementById("btn_action");
 
-        btn.onclick = function () {
+        btn.onclick = function() {
 
             // Retrieve data from the button's data-attributes
             var id = this.dataset.id;
@@ -161,5 +193,26 @@
             document.getElementById('description').value = desc;
 
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#callSupplierModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang memicu modal
+                var no_telp = button.data('no_telp'); // Nilai data-id yang diambil dari tombol
+                var email = button.data('email'); // Nilai data-name yang diambil dari tombol
+                console.log(no_telp);
+                $("#callSupplierModal .whatsapp").attr("href",
+                    "https://wa.me/" + no_telp +
+                    "?text={{ urlencode('Halo admin, saya ingin bertanya tentang produk Anda.') }}"
+                );
+                $("#callSupplierModal .gmail").attr("href",
+                    "mailto:" + email +
+                    "?subject=Pengajuan&barang&rusak=Halo admin, saya ingin melakukan pengajuan barang"
+                );
+
+
+
+            });
+        });
     </script>
 @endpush

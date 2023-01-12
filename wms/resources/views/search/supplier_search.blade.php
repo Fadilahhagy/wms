@@ -84,6 +84,9 @@
                         @endforelse
                       </tbody>
                     </table> 
+                    <div class="d-flex justify-content-center">
+                        {!! $suppliers->links() !!}
+                    </div>
                   </div>
                 </div>   
         </section>

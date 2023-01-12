@@ -83,7 +83,10 @@
                           </div>
                         @endforelse
                       </tbody>
-                    </table> 
+                    </table>
+                    <div class="d-flex justify-content-center">
+                        {!! $suppliers->links() !!}
+                    </div>
                   </div>
                 </div>   
         </section>
@@ -149,20 +152,19 @@
           <p>Edit data supplier!</p>
           <div class="form-group">
             <label>Nama</label>
-              <input type="hidden" name="user_id" id="#id">
-              <input type="text" class="form-control" placeholder="Nama Supplier" value="" name="name" id="name_supplier">
+              <input type="text" class="form-control" placeholder="Nama Supplier" name="name" id="name_supplier">
           </div>
           <div class="form-group">
             <label>Alamat</label>
-              <input type="text" class="form-control" placeholder="Alamat Supplier" value="" name="address" id="address_supplier">
+              <input type="text" class="form-control" placeholder="Alamat Supplier" name="address" id="address_supplier">
           </div>
           <div class="form-group">
             <label>E-mail</label>
-              <input type="email" class="form-control" placeholder="E-mail Supplier" value="" name="email" id="email_supplier">
+              <input type="email" class="form-control" placeholder="E-mail Supplier" name="email" id="email_supplier">
           </div>
           <div class="form-group">
             <label>No telp.</label>
-              <input type="text" class="form-control" placeholder="No telp. Supplier" value="" name="phone" id="phone_supplier">
+              <input type="text" class="form-control" placeholder="No telp. Supplier" name="phone" id="phone_supplier">
           </div>
           <div class="form-group mb-0">
           </div>

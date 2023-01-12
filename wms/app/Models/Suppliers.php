@@ -8,19 +8,23 @@ use Laravel\Scout\Searchable;
 
 class Suppliers extends Model
 {
+    public $timestamps = true;
+    
     use HasFactory;
-    public $timestamps = false;
     protected $fillable = [
         'id',
         'name',
         'email',
         'address',
         'phone',
+        'created_at',
+        'updated_at'
     ];
 
     public function items() {
         return $this->hasMany(Item::class,'supplier_id','id');
     }
+
 
     public function toSearchableArray()
     {

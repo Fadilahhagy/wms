@@ -2,11 +2,6 @@
 @push('style')
     <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('library/bootstrap-daterangepicker/daterangepicker.css') }}">
-    <link rel="stylesheet" href="{{ asset('library/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('library/select2/dist/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('library/selectric/public/selectric.css') }}">
-    <link rel="stylesheet" href="{{ asset('library/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('library/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}">
 @endpush
 @section('content')
     <!-- Main Content -->
@@ -22,16 +17,38 @@
             </div>
             <div class="card card-primary">
                 <div class="card-header ">
-                    <h4>List Data Barang</h4>
-                    <form class="card-header-form" style="width: 20%;">
-                        <input type="text" name="search" class="form-control" placeholder="Search...">
-                    </form>
+                    <h4 class="section-title">List Data Barang
+                        <form class="card-header-form">
+                          <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search..." id="search">
+                          </div>
+                        </form>
+                        </h4>
+                        <div class="card-header-action">
+                          <div class="buttons">
+                          <button class="btn btn-outline-primary" id="modal" data-target="#exampleModal" data-toggle="modal">
+                            Tambah data barang
+                          </button>
+                          </div>
+                          <div class="card-header>">
+                        </div>
+                        </div>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline-primary mb-2" id="modal" data-target="#exampleModal"
-                        data-toggle="modal">
-                        Tambah data barang
-                    </button>
+                    <div class="selectgroup w-100">
+                        <label class="selectgroup-item">
+                            <input type="radio" name="condition" value="1" class="selectgroup-input"
+                                onclick="redirect('/items/condition/1')"
+                                {{ request()->is('items/condition/1') ? 'checked' : '' }}>
+                            <span class="selectgroup-button">Baik</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="radio" name="condition" value="2" class="selectgroup-input"
+                                onclick="redirect('/items/condition/2')"
+                                {{ request()->is('items/condition/2') ? 'checked' : '' }}>
+                            <span class="selectgroup-button">Rusak</span>
+                        </label>
+                    </div>
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -46,6 +63,11 @@
                             {{ session('success') }}
                         </div>
                     @endif
+                    @if (session('failed'))
+                        <div class="alert alert-danger">
+                            {{ session('failed') }}
+                        </div>
+                    @endif
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -55,11 +77,12 @@
                                 <th scope="col">Jenis Barang</th>
                                 <th scope="col">Tanggal Kadaluarsa</th>
                                 <th scope="col">Lokasi Ruangan</th>
-                                <th scope="col">Ubah Kondisi</th>
+                                <th scope="col" class="{{ request()->is('items/condition/2') ? 'd-none' : '' }}">Ubah
+                                    Kondisi</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="result">
                             @foreach ($items as $item)
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
@@ -68,19 +91,25 @@
                                     <td>{{ $item->itemType->name }}</td>
                                     <td>{{ $item->exp_date }}</td>
                                     <td>{{ $item->room->name }}</td>
-                                    <td><a href="" class="btn btn-sm btn-outline-danger"
+                                    <td class="{{ request()->is('items/condition/2') ? 'd-none' : '' }}">
+                                        <a href="" class="btn btn-sm btn-outline-danger"
                                             data-id="{{ $item->item_code }}" data-name="{{ $item->name }}"
-                                            id="editConditionBtn" data-target="#editConditionModal" data-toggle="modal">Ubah
-                                            Ke Barang Rusak</a>
+                                            id="editConditionBtn" data-target="#editConditionModal"
+                                            data-toggle="modal">Barang Rusak
+                                        </a>
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-icon btn-sm btn-danger" id="deleteBtn"
-                                            data-target="#deleteModal" data-toggle="modal" data-id="{{ $item->item_code }}"
-                                            data-name="{{ $item->name }}">
-                                            <i class="fa-sharp fa-solid fa-trash"> </i>
-                                        </a>
-                                        <a href="" class="btn btn-icon btn-sm btn-warning"><i
-                                                class="fa-regular fa-pen-to-square"></i></a>
+                                        <div class="row">
+                                            <button type="button" class="btn btn-icon btn-sm btn-danger" id="deleteBtn"
+                                                data-target="#deleteModal" data-toggle="modal"
+                                                data-id="{{ $item->item_code }}" data-name="{{ $item->name }}">
+                                                <i class="fa-sharp fa-solid fa-trash"> </i>
+                                            </button>
+                                            <a href="/items/form/{{ $item->item_code }}"
+                                                class="btn btn-icon btn-sm btn-warning" style="margin-left: 5px">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -133,8 +162,10 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Supplier</label>
-                                    <select class="form-control select2">
-                                        <option>Supplier 1</option>
+                                    <select class="form-control select2" name="item_supplier">
+                                        @foreach ($suppliers as $row)
+                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -205,8 +236,7 @@
             </div>
         </div>
     </div>
-
-    {{-- Modal Ubah Kondisi Barang --}}
+    {{-- Modal Edit Kondisi Barang --}}
     <div class="modal fade" tabindex="-1" role="dialog" id="editConditionModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -223,65 +253,107 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         Close
                     </button>
-                    <form method="POST" action="{{ url('/items/edit-condition') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ url('/items/edit-condition') }}">
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="item_id" name="item_id">
-                        <button type="submit" class="btn btn-warning">Ubah</button>
+                        <button type="submit" class="btn btn-danger">Ubah</button>
                     </form>
 
                 </div>
             </div>
         </div>
     </div>
+
 @endsection
 @push('scripts')
-    <!-- JS Libraies -->
-    <script src="{{ asset('library/cleave.js/dist/cleave.min.js') }}"></script>
-    <script src="{{ asset('library/cleave.js/dist/addons/cleave-phone.us.js') }}"></script>
-    <script src="{{ asset('library/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-    <script src="{{ asset('library/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
-    <script src="{{ asset('library/bootstrap-timepicker/js/bootstrap-timepicker.min.js') }}"></script>
-    <script src="{{ asset('library/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
-    <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
-    <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
-
     <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/forms-advanced-forms.js') }}"></script>
 
 
     {{-- Modal Delete JS --}}
     <script>
-        // Get the button that opens the modal
-        var btn = document.getElementById("deleteBtn");
+        $(document).ready(function() {
+            $('#deleteModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang memicu modal
+                var id = button.data('id'); // Nilai data-id yang diambil dari tombol
+                var name = button.data('name'); // Nilai data-name yang diambil dari tombol
+                var modal = $(this);
+                modal.find('.modal-title').text('Data dengan ID ' + id);
+                modal.find('.modal-body input#item_id').val(id);
+                $('#deleteModal #item_id').val(id);
+                modal.find('.modal-body #text-body').text("Anda yakin akan menghapus data " + name + "?");
+            });
+        });
+        // Modal Edit Condition
+        $(document).ready(function() {
+            $('#editConditionModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang memicu modal
+                var id = button.data('id'); // Nilai data-id yang diambil dari tombol
+                var name = button.data('name'); // Nilai data-name yang diambil dari tombol
+                var modal = $(this);
+                modal.find('.modal-title').text('Data dengan ID ' + id);
+                $('#editConditionModal #item_id').val(id);
+                modal.find('.modal-body #text-body').html("Anda yakin akan mengubah  data barang " + name +
+                    " menjadi <b>data barang rusak</b>");
+            });
+        });
 
-        btn.onclick = function() {
-
-            // Retrieve data from the button's data-attributes
-            var id = this.dataset.id;
-            var name = this.dataset.name;
-            // Use the data in the modal
-            document.getElementById('item_id').value = id;
-            document.getElementById('text-body').textContent = "Anda yakin akan menghapus data " + name + "?";
+        function redirect(url) {
+            window.location.href = url;
         }
-    </script>
 
-    {{-- Modal Edit Condition --}}
-    <script>
-        var modal = document.getElementById('editConditionModal');
-        var btn = document.getElementById("editConditionBtn");
+        // Live Search
+        $(document).ready(function() {
+            var url = "";
 
-        btn.onclick = function() {
-
-            // Retrieve data from the button's data-attributes
-            var id = this.dataset.id;
-            var name = this.dataset.name;
-            console.log(id);
-            // Use the data in the modal
-            document.querySelector('#editConditionModal #item_id').value = id;
-            modal.querySelector('#editConditionModal #text-body').innerHTML =
-                "Anda yakin akan mengubah  data barang " + name +
-                " menjadi <b>data barang rusak</b>";
-        }
+            if (window.location.pathname == "/items/condition/1") {
+                url = "/items/condition/1"
+            } else {
+                url = "/items/condition/2"
+            }
+            var typingTimer;
+            var doneTimingInterval = 500;
+            $("#search").on("keyup", function() {
+                clearTimeout(typingTimer);
+                var value = $(this).val().toLowerCase();
+                typingTimer = setTimeout(() => {
+                    $.get(url + "/live_search?q=" + value, function(data) {
+                        $("#result").html("");
+                        console.log(data);
+                        $.each(data, function(key, value) {
+                            $("#result").append(`<tr>
+                                <th scope="row">${key+1}</th>
+                                <td>${value.item_code}</td>
+                                <td>${value.name}</td>
+                                <td>${value.item_type.name}</td>
+                                <td>${value.exp_date}</td>
+                                <td>${value.room.name}</td>
+                                <td class="{{ request()->is('items/condition/2') ? 'd-none' : '' }}">
+                                    <a href="" class="btn btn-sm btn-outline-danger"
+                                        data-id="${value.item_code }" data-name="${value.name }"
+                                        id="editConditionBtn" data-target="#editConditionModal"
+                                        data-toggle="modal">Barang Rusak
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <button type="button" class="btn btn-icon btn-sm btn-danger" id="deleteBtn"
+                                            data-target="#deleteModal" data-toggle="modal"
+                                            data-id="${value.item_code }" data-name="${value.name }">
+                                            <i class="fa-sharp fa-solid fa-trash"> </i>
+                                        </button>
+                                        <a href="/items/form/${value.item_code }"
+                                            class="btn btn-icon btn-sm btn-warning" style="margin-left: 5px">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>`);
+                        });
+                    });
+                }, doneTimingInterval);
+            });
+        });
     </script>
 @endpush

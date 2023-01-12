@@ -19,22 +19,25 @@
                 </a>
             </li>
             </li>
-            <li class="{{ request()->is('items') ? 'active' : '' }}">
-                <a href="{{ url('items') }}"><i class="fa fa-boxes"></i><span>Warehouse</span></a>
+            <li class="{{ request()->is('items*') ? 'active' : '' }}">
+                <a href="{{ url('items/condition/1') }}"><i class="fa fa-boxes"></i><span>Warehouse</span></a>
             </li>
-            <li class="{{ request()->is('room') ? 'active' : '' }}">
+            <li class="{{ request()->is('room*') ? 'active' : '' }}">
                 <a href="{{ url('room') }}"><i class="fa fa-door-open"></i><span>Ruangan</span></a>
             </li>
             <li class="{{ request()->is('report-item') ? 'active' : '' }}">
                 <a href="{{ url('report-item') }}"><i class="fa fa-truck"></i><span>Lapor Barang
                         Rusak</span></a>
             </li>
-            <li class="{{ request()->is('report-data') ? 'active' : '' }}">
-                <a href="{{ url('report-data') }}"><i class="fas fa-book"></i><span>Data Laporan</span></a>
-            </li>
-            <li class="{{ request()->is('users') ? 'active' : '' }}">
-                <a href="{{ url('users') }}"><i class="fa-solid fa-user-group"></i><span>Data Pengguna</span></a>
-            </li>
+            @if (auth()->user()->isAdmin())
+                <li class="{{ request()->is('report-data') ? 'active' : '' }}">
+                    <a href="{{ url('report-data') }}"><i class="fas fa-book"></i><span>Data Laporan</span></a>
+                </li>
+                <li class="{{ request()->is('users') ? 'active' : '' }}">
+                    <a href="{{ url('users') }}"><i class="fa-solid fa-user-group"></i><span>Data Pengguna</span></a>
+                </li>
+            @endif
+
         </ul>
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
             <a href="" class="btn btn-primary btn-lg btn-block btn-icon-split">

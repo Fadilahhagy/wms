@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function index() {
-        $users = User::where('role_id',2)->get();
+        $users = User::where('role_id',2)->paginate(12);
         return view('users.index',['users'=>$users]);
     }
 

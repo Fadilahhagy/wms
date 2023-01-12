@@ -17,16 +17,24 @@
             </div>
             <div class="card card-primary">
                 <div class="card-header ">
-                    <h4>List Data Barang</h4>
-                    <form class="card-header-form" style="width: 20%;">
-                        <input type="text" name="search" class="form-control" placeholder="Search..." id="search">
-                    </form>
+                    <h4 class="section-title">List Data Barang
+                        <form class="card-header-form">
+                          <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search..." id="search">
+                          </div>
+                        </form>
+                        </h4>
+                        <div class="card-header-action">
+                          <div class="buttons">
+                          <button class="btn btn-outline-primary" id="modal" data-target="#exampleModal" data-toggle="modal">
+                            Tambah data barang
+                          </button>
+                          </div>
+                          <div class="card-header>">
+                        </div>
+                        </div>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline-primary mb-2" id="modal" data-target="#exampleModal"
-                        data-toggle="modal">
-                        Tambah data barang
-                    </button>
                     <div class="selectgroup w-100">
                         <label class="selectgroup-item">
                             <input type="radio" name="condition" value="1" class="selectgroup-input"

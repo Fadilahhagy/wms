@@ -12,10 +12,10 @@ use Illuminate\Support\Str;
 class ItemController extends Controller
 {
     public function index() {
-        $items = Item::where('condition',1)->get();
-        $itemTypes = ItemType::all();
-        $rooms = Room::all();
-        $suppliers = Suppliers::all();
+        $items      = Item::where('condition',1)->first()->paginate(12);
+        $itemTypes  = ItemType::all();
+        $rooms      = Room::all();
+        $suppliers  = Suppliers::all();
         return view('warehouse',["items" => $items, "itemTypes" => $itemTypes, "rooms" => $rooms,"suppliers" => $suppliers]);
     }
 

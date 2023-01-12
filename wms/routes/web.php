@@ -9,6 +9,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Models\Suppliers;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,10 @@ use App\Models\Suppliers;
 |
 */
 
+Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 // Ini adalah fungsi route untuk menampilkan halaman
 Route::get('/dashboard', function () {
@@ -29,7 +34,27 @@ Route::get('/dashboard', function () {
 Route::get('/forgot_password', function () {
     return view('forgot_password');
 });
-    
+Route::controller(RoomController::class) -> group(function() {
+    Route::get('/room','index');
+    Route::get('/room/{id}','show');
+    Route::post('/room','store');
+});
+
+
+Route::controller(ReportController::class)->group(function() {
+    Route::get('/report-item','indexItems');
+    Route::post('/report-item','store');
+    Route::get('/report-data','index');
+    Route::put('/acc-report','accept_report');
+    Route::put('/decline-report','decline-report');
+});
+
+Route::controller(UserController::class)->group(function() {
+    Route::get('/users','index');
+    Route::Put('/users','update');
+    Route::delete('/users','destroy');
+});
+
 Auth::routes();
 
 Route::middleware('auth')->group(function() {
@@ -93,4 +118,3 @@ Route::middleware('auth')->group(function() {
 
     
 });
-

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 class RoomController extends Controller
 {
     public function index() {
-        $rooms = Room::all();
+        $rooms = Room::all()->first()->paginate(12);
         $roomTypes = RoomType::all();
         $itemTypes = ItemType::all();
         return view('room.room',['rooms' => $rooms,'room_types' => $roomTypes,'item_types' => $itemTypes]);

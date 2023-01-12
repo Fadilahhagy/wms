@@ -18,7 +18,7 @@
                     <h4 class="section-title">List Data Supplier
                         <form action="{{ route('supplier.search') }}" method="GET" class="card-header-form">
                             <div class="input-group">
-                                <input type="text" name="s" class="form-control" placeholder="Search">
+                                <input type="text" name="search" class="form-control" placeholder="Search">
                             </div>
                         </form>
                     </h4>
@@ -87,6 +87,9 @@
                             @endforelse
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {!! $suppliers->links() !!}
+                    </div>
                 </div>
             </div>
         </section>
@@ -109,22 +112,19 @@
                         <div class="form-group">
                             <label>Nama</label>
                             <input type="hidden" name="user_id">
-                            <input type="text" class="form-control" placeholder="Nama Supplier" name="name" required>
+                            <input type="text" class="form-control" placeholder="Nama Supplier" name="name">
                         </div>
                         <div class="form-group">
                             <label>Alamat</label>
-                            <input type="text" class="form-control" placeholder="Alamat Supplier" name="address"
-                                required>
+                            <input type="text" class="form-control" placeholder="Alamat Supplier" name="address">
                         </div>
                         <div class="form-group">
                             <label>E-mail</label>
-                            <input type="email" class="form-control" placeholder="E-mail Supplier" name="email"
-                                required>
+                            <input type="email" class="form-control" placeholder="E-mail Supplier" name="email">
                         </div>
                         <div class="form-group">
                             <label>No telp.</label>
-                            <input type="text" class="form-control" placeholder="No telp. Supplier" name="phone"
-                                required>
+                            <input type="text" class="form-control" placeholder="No telp. Supplier" name="phone">
                         </div>
                         <div class="form-group mb-0">
                         </div>
@@ -149,31 +149,29 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('supplier.update', $supplier->id) }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form action="{{ route('supplier.update', $supplier->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <p>Edit data supplier!</p>
                         <div class="form-group">
                             <label>Nama</label>
-                            <input type="hidden" name="user_id" id="#id">
-                            <input type="text" class="form-control" placeholder="Nama Supplier" value=""
-                                name="name" id="name_supplier">
+                            <input type="text" class="form-control" placeholder="Nama Supplier" name="name"
+                                id="name_supplier">
                         </div>
                         <div class="form-group">
                             <label>Alamat</label>
-                            <input type="text" class="form-control" placeholder="Alamat Supplier" value=""
-                                name="address" id="address_supplier">
+                            <input type="text" class="form-control" placeholder="Alamat Supplier" name="address"
+                                id="address_supplier">
                         </div>
                         <div class="form-group">
                             <label>E-mail</label>
-                            <input type="email" class="form-control" placeholder="E-mail Supplier" value=""
-                                name="email" id="email_supplier">
+                            <input type="email" class="form-control" placeholder="E-mail Supplier" name="email"
+                                id="email_supplier">
                         </div>
                         <div class="form-group">
                             <label>No telp.</label>
-                            <input type="text" class="form-control" placeholder="No telp. Supplier" value=""
-                                name="phone" id="phone_supplier">
+                            <input type="text" class="form-control" placeholder="No telp. Supplier" name="phone"
+                                id="phone_supplier">
                         </div>
                         <div class="form-group mb-0">
                         </div>
@@ -184,30 +182,124 @@
                         </form>
                 </div>
             </div>
-        </div>
-    </div>
 
-@endsection
+            {{-- Modal create supplier goes here  --}}
+            <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
+                <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Tambah Data Supplier</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('supplier.store') }}" method="POST" enctype="multipart/form-data">
+                                {{ csrf_field() }}
+                                <p>Tambahkan data supplier dengan lengkap!</p>
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="hidden" name="user_id">
+                                    <input type="text" class="form-control" placeholder="Nama Supplier"
+                                        name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat</label>
+                                    <input type="text" class="form-control" placeholder="Alamat Supplier"
+                                        name="address" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>E-mail</label>
+                                    <input type="email" class="form-control" placeholder="E-mail Supplier"
+                                        name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>No telp.</label>
+                                    <input type="text" class="form-control" placeholder="No telp. Supplier"
+                                        name="phone" required>
+                                </div>
+                                <div class="form-group mb-0">
+                                </div>
+                        </div>
+                        <div class="modal-footer bg-whitesmoke br">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            //edit data
-            $('.edit').on("click", function() {
-                var id = $(this).attr('data-id');
-                $.ajax({
-                    url: "{{ route('supplier.edit') }}?id=" + id,
-                    type: "GET",
-                    dataType: "JSON",
-                    success: function(supplier) {
-                        $('#id').val(supplier.id);
-                        $('#name_supplier').val(supplier.name);
-                        $('#address_supplier').val(supplier.address);
-                        $('#email_supplier').val(supplier.email);
-                        $('#phone_supplier').val(supplier.phone);
-                    }
+            {{-- Modal edit goes here --}}
+            <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal2" data-target="#exampleModal2">
+                <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Data Supplier</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('supplier.update', $supplier->id) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <p>Edit data supplier!</p>
+                                <div class="form-group">
+                                    <label>Nama</label>
+                                    <input type="hidden" name="user_id" id="#id">
+                                    <input type="text" class="form-control" placeholder="Nama Supplier"
+                                        value="" name="name" id="name_supplier">
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat</label>
+                                    <input type="text" class="form-control" placeholder="Alamat Supplier"
+                                        value="" name="address" id="address_supplier">
+                                </div>
+                                <div class="form-group">
+                                    <label>E-mail</label>
+                                    <input type="email" class="form-control" placeholder="E-mail Supplier"
+                                        value="" name="email" id="email_supplier">
+                                </div>
+                                <div class="form-group">
+                                    <label>No telp.</label>
+                                    <input type="text" class="form-control" placeholder="No telp. Supplier"
+                                        value="" name="phone" id="phone_supplier">
+                                </div>
+                                <div class="form-group mb-0">
+                                </div>
+                        </div>
+                        <div class="modal-footer bg-whitesmoke br">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        @endsection
+
+        @push('scripts')
+            <script>
+                $(document).ready(function() {
+                    //edit data
+                    $('.edit').on("click", function() {
+                        var id = $(this).attr('data-id');
+                        $.ajax({
+                            url: "{{ route('supplier.edit') }}?id=" + id,
+                            type: "GET",
+                            dataType: "JSON",
+                            success: function(supplier) {
+                                $('#id').val(supplier.id);
+                                $('#name_supplier').val(supplier.name);
+                                $('#address_supplier').val(supplier.address);
+                                $('#email_supplier').val(supplier.email);
+                                $('#phone_supplier').val(supplier.phone);
+                            }
+                        });
+                    });
                 });
-            });
-        });
-    </script>
-@endpush
+            </script>
+        @endpush

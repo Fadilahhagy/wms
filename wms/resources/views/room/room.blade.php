@@ -13,16 +13,24 @@
             </div>
             <div class="card card-primary">
                 <div class="card-header ">
-                    <h4>List Data Barang</h4>
-                    <form class="card-header-form" style="width: 20%;">
-                        <input type="text" name="search" class="form-control" placeholder="Search..." id="search">
-                    </form>
+                    <h4 class="section-title">List Data Ruangan
+                        <form class="card-header-form">
+                          <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search..." id="search">
+                          </div>
+                        </form>
+                        </h4>
+                        <div class="card-header-action">
+                          <div class="buttons">
+                          <button class="btn btn-outline-primary" id="modal" data-target="#exampleModal" data-toggle="modal">
+                            Tambah data ruangan
+                          </button>
+                          </div>
+                          <div class="card-header>">
+                        </div>
+                        </div>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline-primary mb-2" id="modal" data-target="#modal-tambah-ruangan"
-                        data-toggle="modal">
-                        Tambah data Ruangan
-                    </button>
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -63,6 +71,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {!! $rooms->links() !!}
+                    </div>
                 </div>
             </div>
         </section>

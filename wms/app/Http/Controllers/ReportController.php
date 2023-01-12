@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class ReportController extends Controller
 {
     public function indexItems() {
-        $items = Item::where('condition',2)->get();
+        $items = Item::where('condition',2)->first()->paginate(12);
         return view('report_item',['items' => $items]);
     }
 
